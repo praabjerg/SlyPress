@@ -18,14 +18,14 @@ import os, math
 
 def compile_img(name, packstring, filetype, dpi, formula):
     mathstr = packstring + '\\' + filetype + ' ' + '\\dpi{' + str(dpi) + '} ' + formula
-    os.system('mathtex "' + mathstr + '" -o ' + name)
+    os.system('./mathtex "' + mathstr + '" -o ' + name)
 
 def compile_elt(name, formula, split):
     scale = 750.0
     filetype = 'png'
     dpi = 1500
     usepackages = []
-    homepath = '/home/palle/HTMLBleamer/SlyPres/'
+    homepath = os.path.join(os.path.abspath(os.path.dirname(__file__)), '')
     imgpath = 'math_imgs/'
     packstring = ''
     filename = name + '.' + filetype

@@ -252,7 +252,7 @@ class Bleamer:
         def loadpage(driver):
             sleep(2)
             driver.get('http://localhost:8080/present.html')
-        chromedriver = '/usr/lib/chromium-browser/chromedriver'
+        chromedriver = 'chromedriver'
         os.environ['webdriver.chrome.driver'] = chromedriver
         print("Loading Chromium!")
         self.webdriver = webdriver.Chrome(chromedriver)
@@ -338,5 +338,51 @@ class Bleamer:
     mathtex.exposed = True
     #present.exposed = True
 
+
+config = {
+    'global': {
+        'server.socket_host': 'localhost',
+        'server.socket_port': 8080,
+    },
+}
+
+ROOT = os.path.abspath(os.path.dirname(__file__))
+
+config['/'] = {
+    'tools.staticdir.root': ROOT,
+    'tools.trailing_slash.on': False,
+}
+FILES = (
+    'presentpre.html',
+    'present.html',
+    'source.xml',
+    'working.xml',
+    'working.json',
+    'original.json',
+    'bleamer.dtd',
+)
+DIRS = (
+    'css',
+    'js',
+    'pythontutor',
+    'python',
+    'imgs',
+    'math_imgs',
+    'videos',
+    'thumb',
+)
+
+for path in FILES:
+    config['/' + path] = {
+        'tools.staticfile.on': True,
+        'tools.staticfile.filename': os.path.join(ROOT, path),
+    }
+for path in DIRS:
+    config['/' + path] = {
+        'tools.staticdir.on': True,
+        'tools.staticdir.dir': os.path.join(ROOT, path),
+    }
+
+
 #cherrypy.quickstart(root=Bleamer(), config="serve.conf")
-cherrypy.quickstart(root=Bleamer(), config="serve.conf")
+cherrypy.quickstart(root=Bleamer(), config=config)
