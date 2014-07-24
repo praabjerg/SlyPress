@@ -1,0 +1,372 @@
+/* Tutor test */
+/* apply a natural box layout model to all elements */
+/* Beware that this may break things that gets integrated later that don't use this box model.
+ * It may be necessary to apply a negative selector to remove it for such things */
+*, *:before, *:after {
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+pre {
+    font-family: monospace;
+    white-space: pre;
+    margin: 1em 0px;
+}
+
+#tutordiv {
+    position: absolute;
+    top: 100px;
+}
+
+#editorslidelist {
+    position: absolute;
+    top: -100px;
+    left: 0px;
+    width: fit-content;
+}
+
+.editthumb {
+    position: absolute;
+    height: 100px;
+    top: 0px;
+}
+
+.actionselector {
+    position: absolute;
+    /* For 1024 */
+    top: 868px;
+    /* For 1280 */
+    /*top: 900px;*/
+    left: 50px;
+    opacity: 0;
+}
+
+.selectedaction {
+    border-left: 2px dashed black;
+    border-right: 2px dashed black;
+    border-top: 2px dashed black;
+}
+
+.actionregulator {
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+.actionregulator > .actionlabel {
+    position: absolute;
+}
+
+.actionregulator > .labelback {
+    position: absolute;
+}
+
+.actionregulator > .actionduration {
+    position: absolute;
+}
+
+#editoreventlist {
+    position: absolute;
+    top: 100px;
+    left: -50px;
+}
+
+#slideindicator {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border-left: 6px solid black;
+    border-right: 6px solid black;
+}
+
+#slideselector {
+    position: absolute;
+    left: 0px;
+    top: -100px;
+    opacity: 0.5;
+    background-color: blue;
+}
+
+#eventselector {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 50px;
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+}
+
+.eventitem {
+    width: 50px;
+}
+
+.newevent {
+    height: 25px;
+    width: 50px;
+    padding-left: 4px;
+    padding-top: 5px;
+    font-size: 110%;
+    font-family: arial,sans-serif;
+}
+
+.title {
+    color: white;
+    font-size: 330%;
+    font-family: arial,sans-serif;
+    position: absolute;
+    opacity: 0;
+    top: 13px;
+    left: 15px;
+}
+
+#slidebox {
+    top: 0px;
+    left: 0px;
+    /* Change for resolutions */
+    width: 1024px;
+    height: 768px;
+    position: absolute;
+    overflow: hidden;
+}
+
+#slidenum {
+    color: white;
+    font-size: 160%;
+    font-family: arial,sans-serif;
+    position: absolute;
+    right: 10px;
+    top: 3px;
+}
+
+#presname {
+    color: white;
+    font-size: 120%;
+    font-family: arial,sans-serif;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+}
+
+/*#slidebox * {
+    position: absolute;
+}*/
+
+.autolayout {
+    position: absolute;
+    /* For 1024 */
+    width: 900px;
+    /* For 1280 */
+    /*width: 1100px;*/
+    left: 60px;
+    -webkit-perspective: 800px;
+}
+
+/*.autolayout {
+    display: inline-block;
+    max-width: 900;
+}*/
+
+embed {
+    /*display: none;*/
+    opacity: 0.5;
+}
+
+#titlebox {
+    top: 0px;
+    left: 0px;
+    /* Change with resolution */
+    width: 1024px;
+    height: 80px;
+    position: absolute;
+    z-index: 30;
+    background-color: #BA0000;
+}
+
+#slidelist {
+    /* Change with resolution */
+    width: 1024px;
+    height: 768px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+}
+
+#footerbox {
+    /* Change with resolution */
+    width: 1024px;
+    height: 30px;
+    /* For 768 */
+    top: 738px;
+    /* For 800 */
+    /*top: 770px;*/
+    left: 0px;
+    position: absolute;
+    z-index: 30;
+    background-color: #BA0000;
+}
+
+.slide {
+    /* Change with resolution */
+    width: 1024px;
+    height: 768px;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    opacity: 0;
+    background-color: white;
+    /*Holy crap this will be awesome!*/
+    -webkit-perspective: 800px;
+}
+
+/*.autolayout > .bullets, .slide > .bullets {
+}*/
+
+.bullets {
+    list-style-type: disc;
+    /*list-style-position: inside;*/
+/*    position: absolute;*/
+/*    top:100px;
+    left:50px;*/
+/*    margin-top: 10px;*/
+    left:30px;
+    font-size: 50px;
+    font-family: arial,sans-serif;
+}
+
+.bleamerelt {
+    position: relative;
+}
+
+.bullets .bullets {
+    font-size: 35px;
+    left: 40px;
+}
+
+.bullet {
+    margin-top: 5px;
+}
+
+#slideswitcher {
+    top: 0px;
+    left: 0px;
+    /* Change with resolution */
+    width: 1024px;
+    height: 768px;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
+    background-color: black;
+    z-index: 2000;
+    -webkit-perspective: 4000px;
+}
+
+.thumbnail {
+    position: absolute;
+    top:0px;
+    left:0px;
+    opacity: 0;
+    /*width: 400px;
+    height: 300px;*/
+    /*-webkit-transform: translateZ(-600px) rotateY(0deg) ;*/
+}
+
+.selectframe {
+    position: absolute;
+    /*background-color: blue;
+    opacity: 0.5;*/
+}
+
+.selectframe {
+    border: 4px solid rgba(0, 0, 0, 0);
+}
+
+#auxelement {
+    border: none;
+}
+
+.selectedframe {
+    border: 4px dotted orange;
+}
+
+.highlightedframe {
+    border: 4px dotted black;
+}
+
+/*#d5 {
+    position: absolute;
+}*/
+
+/*.bullet {
+    -webkit-transform: rotateY(45deg);
+}*/
+
+/*.bullet {
+    position: relative;
+}*/
+
+/*#thirdbullet {
+    position: relative;
+}*/
+
+/*img {
+    display:none;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+
+video {
+    display:none;
+    position:absolute;
+    top:0px;
+    left:0px;
+}*/
+
+#animnavigator {
+    position: absolute;
+    width: 800px;
+    height: 300px;
+}
+
+#animnavigator > li {
+    text-wrap: unrestricted;
+    display: block;
+    position: absolute;
+    /*width: 80px;*/
+}
+
+/*#animnavigator > li {
+    display: inline;
+    width: 100px;
+    top: 0px;
+}*/
+
+/* Titlebox style */
+.titlepage {
+    width: 600px;
+    height: 300px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 2px #888888;
+    background-color: #ff807f;
+    text-align: center;
+}
+
+.prestitle {
+    margin-top: 50px;
+    font-size: 300%;
+    font-family: arial,sans-serif;
+    font-weight: bold;
+    display: inline-block;
+}
+.author {
+    margin-top: 50px;
+    font-size: 200%;
+    display: inline-block;
+}
+.institution {
+    margin-top: 30px;
+    font-size: 150%;
+    font-weight: bold;
+    font-family: arial,sans-serif;
+    display: inline-block;
+}

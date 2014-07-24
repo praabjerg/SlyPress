@@ -1,0 +1,9 @@
+<!ELEMENT textblock (#PCDATA)>
+<!ELEMENT anim (#PCDATA)>
+<!ELEMENT item (#PCDATA|anim)*>
+<!ELEMENT itemize (item+)>
+<!ELEMENT enumerate (item+)>
+<!ELEMENT img (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT slide (title?,(text|itemize|img)*)>
+<!ELEMENT bleamer (slide+)>

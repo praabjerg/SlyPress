@@ -1,0 +1,213 @@
+Licensing of integrated/plugin software and libraries
+
+== jQuery Mousewheel - MIT licence ==
+Copyright (c) 2013, Brandon Aaron (http://brandon.aaron.sh)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+
+== jQuery - MIT licence and others ==
+Copyright 2005, 2014 jQuery Foundation and other contributors,
+https://jquery.org/
+
+This software consists of voluntary contributions made by many
+individuals. For exact contribution history, see the revision history
+available at https://github.com/jquery/jquery
+
+The following license applies to all parts of this software except as
+documented below:
+
+====
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+====
+
+All files located in the node_modules and external directories are
+externally maintained libraries used by this software which have their
+own licenses; we recommend you read them, as their terms may differ from
+the terms above.
+
+
+
+
+== jQuery-UI - MIT licence and others ==
+Copyright 2007, 2014 jQuery Foundation and other contributors,
+https://jquery.org/
+
+This software consists of voluntary contributions made by many
+individuals. For exact contribution history, see the revision history
+available at https://github.com/jquery/jquery-ui
+
+The following license applies to all parts of this software except as
+documented below:
+
+====
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+====
+
+Copyright and related rights for sample code are waived via CC0. Sample
+code is defined as all source code contained within the demos directory.
+
+CC0: http://creativecommons.org/publicdomain/zero/1.0/
+
+====
+
+All files located in the node_modules and external directories are
+externally maintained libraries used by this software which have their
+own licenses; we recommend you read them, as their terms may differ from
+the terms above.
+
+
+
+
+== jQuery Snippet - MIT licence ==
+http://steamdev.com/snippet
+
+Copyright 2011, SteamDev
+Released under the MIT license.
+http://www.opensource.org/licenses/mit-license.php
+
+Date: Wed Jan 19, 2011
+
+
+
+
+== jQuery terminal - LGPL Version 3 and others ==
+Licensed under GNU LGPL Version 3 license
+Copyright (c) 2011-2013 Jakub Jankiewicz <http://jcubic.pl>
+
+Includes:
+Storage plugin Distributed under the MIT License
+Copyright (c) 2010 Dave Schindler
+
+jQuery Timers licenced with the WTFPL
+<http://jquery.offput.ca/every/>
+
+Cross-Browser Split 1.1.1
+Copyright 2007-2012 Steven Levithan <stevenlevithan.com>
+Available under the MIT License
+
+sprintf.js
+Copyright (c) 2007-2013 Alexandru Marasteanu <hello at alexei dot ro>
+licensed under 3 clause BSD license
+
+
+
+
+== jQuery 2d/3d Transform v0.9.5 - MIT and GPL Version 2 ==
+Extend jQuery animate function adding css3 2D & 3D animation.
+Copyright 2012, Thomas THELLIEZ (http://eenox.net/)
+
+Fork from jQuery 2d Transform v0.9.3 (http://wiki.github.com/heygrady/transform/)
+Copyright 2010, Grady Kuhnline
+
+Dual licensed under the MIT or GPL Version 2 licenses.
+http://jquery.org/license
+
+Date: Sat Dec 4 15:46:09 2010 -0800
+
+
+
+
+== Mathtex - GPLv3 ==
+Copyright(c) 2007-2012, John Forkosh Associates, Inc. All rights reserved.
+          http://www.forkosh.com   mailto: john@forkosh.com
+--------------------------------------------------------------------------
+This file is part of mathTeX, which is free software. You may redistribute
+and/or modify it under the terms of the GNU General Public License,
+version 3 or later, as published by the Free Software Foundation.
+     MathTeX is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY, not even the implied warranty of MERCHANTABILITY.
+See the GNU General Public License for specific details.
+     By using mathTeX, you warrant that you have read, understood and
+agreed to these terms and conditions, and that you possess the legal
+right and ability to enter into this agreement and to use mathTeX
+in accordance with it.
+     Your mathtex.zip distribution should contain the file COPYING,
+an ascii text copy of the GNU General Public License, version 3.
+If not, point your browser to  http://www.gnu.org/licenses/
+or write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330,  Boston, MA 02111-1307 USA.
+
+
+
+
+== Online Python Tutor - MIT licence ==
+https://github.com/pgbovine/OnlinePythonTutor/
+
+Copyright (C) 2010-2013 Philip J. Guo (philip@pgbovine.net)
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

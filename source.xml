@@ -1,0 +1,56 @@
+<bleamer btitle="Learning Transducers">
+  <slide header="no" footer="no">
+    <titlepage>
+      <prestitle>Your Title</prestitle>
+      <author>Your Name</author>
+      <inst>Organisation Name</inst>
+    </titlepage>
+  </slide>
+  <slide>
+    <title>Slide title</title>
+    <itemize>
+      <item>First bullet</item>
+      <pause/>
+      <item>Second bullet</item>
+      <item>Third bullet</item>
+      <item>Middle word <anim>can</anim> be animated!</item>
+    </itemize>
+    <!-- Out-of-flow box. Unless inflow="no" is specified,
+    elements will appear in the vertically centered flow. -->
+    <box inflow="no" border="3px solid black" />
+  </slide>
+  <slide>
+    <title>An image!</title>
+    <img inflow="no" src="imgs/aphoto.jpg">Some trees!</img>
+  </slide>
+  <slide>
+    <title>Code snippet formatting</title>
+    <!-- Snippet plugin
+    Note: You may have to adjust the height and width of the box
+    in the animation editor. -->
+    <code lang="python" src="python/sumloop.py"/>
+    <!-- Plain-text elements can be given a class for styling.
+    I usually put these in css/customstyles.css -->
+    <text class="plaintextnotice">Plain-text element</text>
+  </slide>
+  <slide>
+    <title>Mathtex</title>
+    <mathtex name="testformula" split="yes">\sqrt{2^x + 3^{x^y}}</mathtex>
+  </slide>
+  <slide>
+    <title>Slide with Python Tutor</title>
+    <!-- Only Python. But Java Tutor has the same code-base, so
+    it should be possible to make that work with relative ease. -->
+    <pytutor src="python/sumloop.py" codewidth="400" steps="15" />
+  </slide>
+  <slide>
+    <title>Python terminal</title>
+    <!-- This feature disappears in the next version! -->
+    <pyterm height="400">
+      <command>python</command>
+      <command>x = [32, 43, 78, 2222]</command>
+      <command>y = x[2] + x[3]</command>
+      <command>print y</command>
+    </pyterm>
+  </slide>
+</bleamer>

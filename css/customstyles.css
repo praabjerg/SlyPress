@@ -1,0 +1,41 @@
+.filename {
+    padding-top: 10px;
+    padding-left: 10px;
+    overflow: hidden;
+    background-color: pink;
+    font-family: monospace;
+    font-size: 2em;
+    border-radius: 10px;
+}
+
+.linknotice {
+    padding: 10px;
+    font-family: sans-serif;
+    font-size: 4em;
+    color: blue;
+    background-color: #ffffc8;
+    border-radius: 10px;
+    box-shadow: 5px 5px 2px #888888;
+}
+
+.textnotice {
+    padding: 10px;
+    font-family: sans-serif;
+    font-size: 4em;
+    color: black;
+    background-color: #ffffc8;
+    border-radius: 10px;
+    box-shadow: 5px 5px 2px #888888;
+}
+
+.plaintextnotice {
+    font-family: sans-serif;
+    font-size: 2em;
+    color: black;
+}
+
+.failnotice {
+    font-family: sans-serif;
+    font-size: 4em;
+    color: red;
+}

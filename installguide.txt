@@ -1,0 +1,80 @@
+Stuff to install (there may be more that I've overlooked):
+apt-get install python-selenium
+apt-get install chromium-chromedriver (or chrome-chromedriver?)
+apt-get install python-scipy
+
+Edit serve.conf to change paths to your working directory. (Search-replace should do it.)
+Change homepath variable in mathtex.py for the same reason.
+
+User instructions:
+1. Edit initial skeleton of presentation (source.xml)
+2. Run serve.py to start bleamer. It will read the skeleton file and start in presentation mode.
+3. Press TAB to enter edit mode. As soon as you press TAB to exit edit mode, bleamer will save working.xml and working.json, together with a new backup version in the backup/ directory. So always remember to exit edit mode before you exit the browser (if you want to save your work!).
+4. From now on, you edit working.xml to change the structure and add and remove elements in the presentation.
+
+Important notes:
+- If working.xml exists, bleamer will load that on startup. Otherwise, it will load the initial source.xml. So when you've started editing animations, and you want to add or remove elements, you have to edit working.xml and restart bleamer. Addition and removal of elements within the animation editor is on the todo-list for the future.
+- In edit mode, you right click to select and deselect elements, BUT!... Direct element selection can be a bit spurious, especially for out-of-flow elements. On the right side of the slide, there's an invisible list of all the elements in the slide that you can select from in the same way that you would directly in the slide. This is a workaround hack. I'll need to fix proper element selection.
+- In edit mode, on the left side of the slide, you will see a list of coloured boxes, and a marker on the topmost box (a black bar on the top and the bottom), which is the event selector. In most cases (unless you use certain special tags like <pause/> or <pytutor/>), slides will start out with just the first event, which is where you put the starting positions of your slide elements. Then you can add an event with shift+S, move down the selector with S, and start moving/scaling/rotating things for that event's end-position.
+- What you are editing is always the selected event's final state.
+- You cannot chain animations. To some degree, this is a consequence of the interface design. Sometime in the future, this may change. But it needs to be considered carefully how to fit it into the interface. For now, you can simulate chaining to some degree by using delays, but you still cannot apply the same type of animation to the same element within the same event more than once. My experience so far is that this is not an enormous handicap. I have not actually *needed* to chain animations so far.
+- Slide thumbnails are still a little onerous. In presentation mode, you can press F3, and screenshots will be taken for the slide switcher. Pressing F4 will then shrink these for use in the slide selector in the animation editor.
+
+== Editing source.xml/working.xml ==
+You will find a sample source.xml to show you most of the important things you can add to a presentation.
+In working.xml, bleamer will have added an id attribute to all the elements. This happens to keep track of the animations. It's perfectly safe to add new elements without ids (bleamer will keep track and add new ids as needed). If you remove an id from an element, bleamer will simply see it as a new element with no animations attached. This can be useful, too.
+
+== Flow ==
+Each slide has an vertically centered <div/>, the flow element. By default, elements will be added to that <div/>, and thus automatically be centered vertically on the slide. If you don't want a particular element to be in the flow, you specify the inflow="no" attribute.
+
+== Layering ==
+If you need to, you can apply the z-index attribute to elements in working.xml to change the layering. This can be useful for layering non-flow elements on top or bottom of the flow element, for example.
+(The flow-element has z-index 0)
+
+== working.json ==
+This is the file containing the animations as a JSON-formatted datastructure. Unless you *really* know what you're doing, don't try to edit this directly!
+
+== Controls ==
+
+In presentation mode:
+Pg Down = Run next event/go to next slide
+Pg Up   = Jump to previous event/go to previous slide
+F2      = Screenshot slide
+F3      = Screenshot all slides (for navigator thumbnails)
+F4      = Resize thumbnails for editor slide selector
+F5      = Slide switcher
+
+In slide switcher:
+Pg Down = Next slide
+Pg Up   = Previous slide
+F5      = Presentation mode
+
+TAB = enter/exit animation editor
+
+In animation editor:
+right click = select/deselect element
+
+W = previous event
+S = next event
+shift+S = add new event after current event
+shift+Z = delete current event
+ctrl+W  = move event up    (or close browser. Oops!)
+ctrl+S  = move event down
+A = slide selector back    (enter to select slide)
+D = slide selector forward (enter to select slide)
+
+- On selected elements
+  G = grab/move     (move mouse up/down/left/right)
+  F = fade          (move mouse up/down)
+  R = rotate        (move mouse right/left)
+  Y = rotate Y      (move mouse right/left)
+  X = rotate X      (move mouse up/down)
+  Q = adjust height (move mouse up/down)
+  E = adjust width  (move mouse right/left)
+  T = scale         (move mouse right/left)
+
+- While grabbing/scaling/rotating, etc
+  left click = apply animation edit
+  escape = cancel animation edit
+
+When you have applied an animation, a blue bar will appear under the slide, annotated with the animation type. Holding down left mouse button on the bar will let you move it up and down to adjust delay. Holding down righ mouse button on the bar will let you resize it to adjust the animation length. Default delay is 0ms, and default animation length is 500ms. Adjusting these on the first event of the slide will have no effect.
