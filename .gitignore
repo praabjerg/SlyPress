@@ -1,0 +1,4 @@
+*.pyc
+*~
+working.json
+working.xml
