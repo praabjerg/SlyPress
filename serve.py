@@ -22,6 +22,7 @@ from time import sleep
 
 from pythontutor import generate_trace
 from selenium import webdriver
+import selenium.webdriver.chrome.options
 from multiprocessing import Process
 from scipy import misc
 import cherrypy
@@ -59,9 +60,13 @@ class Bleamer(object):
             driver.get('http://localhost:8080/present.html')
 
         chromedriver = './chromedriver'
+        chrome_options =  selenium.webdriver.chrome.options.Options()
+        chrome_options.add_argument('--test-type')
+        chrome_options.add_argument('browser')
         os.environ['webdriver.chrome.driver'] = chromedriver
         print("Loading Chromium!")
-        self.webdriver = webdriver.Chrome(chromedriver)
+        self.webdriver = webdriver.Chrome(
+            chromedriver, chrome_options=chrome_options)
         pload = Process(target=loadpage, args=(self.webdriver,))
         pload.start()
         # self.webdriver.get('http://localhost:8080')
