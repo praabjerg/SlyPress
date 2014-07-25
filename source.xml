@@ -43,14 +43,4 @@
     it should be possible to make that work with relative ease. -->
     <pytutor src="python/sumloop.py" codewidth="400" steps="15" />
   </slide>
-  <slide>
-    <title>Python terminal</title>
-    <!-- This feature disappears in the next version! -->
-    <pyterm height="400">
-      <command>python</command>
-      <command>x = [32, 43, 78, 2222]</command>
-      <command>y = x[2] + x[3]</command>
-      <command>print y</command>
-    </pyterm>
-  </slide>
 </bleamer>
