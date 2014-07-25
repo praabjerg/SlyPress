@@ -14,17 +14,20 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import cherrypy, json, os, re, sys, types, traceback, shutil
+
+import json
+import os
+import shutil
+from time import sleep
+
 from pythontutor import generate_trace
-from cherrypy.lib.static import serve_file
-from cherrypy import tools
 from selenium import webdriver
 from multiprocessing import Process
-from time import sleep
 from scipy import misc
+import cherrypy
+
 from mathtex import compile_elt
 
-from StringIO import StringIO
 
 jenc = json.JSONEncoder()
 
