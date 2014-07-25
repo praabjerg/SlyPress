@@ -165,8 +165,7 @@ function ActionSelector(animator, mouse, body) {
 	});
 	var count = 0;
 	$.each(actionlist, function(i, action) {
-	    if ((action.actionname() != 'pystep') && (action.actionname() != 'pause')
-		&& (action.actionname() != 'termcommand') && (action.actionname() != 'termenter')) {
+	    if ((action.actionname() != 'pystep') && (action.actionname() != 'pause')) {
 		actselectorobj.addActionRegulator(action, count, actionlist);
 		count += 1;
 	    }

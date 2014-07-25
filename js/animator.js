@@ -100,14 +100,6 @@ function Animator(animations, firstslide, current_objs) {
 	    var aux_obj = current_objs[action['id']];
 	    obj_action = new PyTutor(slide, {'action': 'pystep', 'id': action['id'], 'visualizer': aux_obj});
 	}
-	if (action['action'] == 'termcommand') {
-	    var aux_obj = current_objs[action['id']];
-	    obj_action = new TermCommand(slide, {'action': 'termcommand', 'id': action['id'], 'command': action['command'], 'termcontroller': aux_obj});
-	}
-	if (action['action'] == 'termenter') {
-	    var aux_obj = current_objs[action['cid']];
-	    obj_action = new TermEnter(slide, {'action': 'termenter', 'cid': action['cid'], 'termcontroller': aux_obj});
-	}
 	if (action['action'] == 'scale') {
 	    obj_action = new Scale(slide, action, queuecounter.new_queue());
 	}
@@ -271,7 +263,7 @@ function Animator(animations, firstslide, current_objs) {
     }
 
     this.isRemovable = function(action) {
-	var nonremovable = {'termenter': 1, 'termcommand': 1, 'pystep': 1, 'pause': 1}
+	var nonremovable = {'pystep': 1, 'pause': 1}
 	if (nonremovable[action.actionname()])
 	    return false
 	else

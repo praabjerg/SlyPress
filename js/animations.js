@@ -193,35 +193,6 @@ function Animations(idmanager, slidexml, htmlslides) {
 	return result;
     }
 
-    this.event_hascommand = function(event, id) {
-	var result = false;
-	$.each(event, function(j, action) {
-	    if (action['action'] == 'termcommand') {
-		if (action['id'] == id) {
-		    result = j;
-		    //Returning false ends the loop
-		    return false;
-		}
-	    }
-	});
-	return result;
-    }
-
-    this.get_event_with_command = function(slideid, comid) {
-	var events = animdata[slideid];
-	var result = false;
-	anim_obj = this;
-	$.each(events, function(i, event) {
-	    j = anim_obj.event_hascommand(event, comid);
-	    if (j !== false) {
-		result = [i, j];
-		//Returning false ends the loop
-		return false;
-	    }
-	});
-	return result;
-    }
-
     this.events_haspause = function(slideid, pid) {
 	var events = animdata[slideid];
 	var result = false;
