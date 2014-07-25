@@ -1,7 +1,10 @@
-#For analysis
+import os
+import sys
+# For analysis
 from scipy import misc, ndimage
-#For actual manipulation
-import pygame, os, sys
+# For actual manipulation
+import pygame
+
 
 class BoxedElement(object):
     def __init__(self, nw_co, se_co, xs, ys, im, impix, basename, num):
@@ -40,66 +43,43 @@ class BoxedElement(object):
                       str(sz_y) + " " + str(off_x) + " " + str(off_y)
                       + "\n")
 
-        count = 0
-        for x in self.xs:
+        for x, y in zip(self.xs, self.ys):
             off_x, off_y = self.offset
-            colour = self.im.unmap_rgb(self.impix[x][self.ys[count]])
-            d_colour = dealias(colour, False)
-            newpixarray[x-off_x][self.ys[count]-off_y] = d_colour
-            count += 1
+            colour = self.im.unmap_rgb(self.impix[x][y])
+            newpixarray[x-off_x][y-off_y] = colour
         modsurf = newpixarray.make_surface()
-        pygame.image.save(modsurf, imgdir + "/" + self.basename + "/" + str(self.num) + ".png")
+        pygame.image.save(
+            modsurf,
+            imgdir + "/" + self.basename + "/" + str(self.num) + ".png")
 
-#    def write_element(self):
 
-def dealias(colour, median=True):
-    r, g, b, a = colour
-    if median:
-        if a < 128:
-            newa = 0
-        else:
-            newa = 255
-    else:
-        newa = 255
-    return (r, g, b, newa)
-
-def highest_lowest(lst):
-    lowest = lst[0]
-    highest = lst[0]
-    for elt in lst:
-        if elt < lowest:
-            lowest = elt
-        if elt > highest:
-            highest = elt
-    return (lowest, highest)
-
-def map_boxes(basename, impix, im):
+def map_boxes(basename, label_indices, impix, im):
     results = []
-    count = 0
-    #print('Hrm: ' + str(label_indices[0]))
-    for index in label_indices:
+    for count, index in enumerate(label_indices):
         ys, xs = index
-        #colour = impix[xs[0]][ys[0]]
-        #colour = dealias(im.unmap_rgb(impix[xs[0]][ys[0]]), median=False)
         r, g, b, a = im.unmap_rgb(impix[xs[0]][ys[0]])
-        colour = r, g, b, 255
-        lo_x, hi_x = highest_lowest(xs)
-        lo_y, hi_y = highest_lowest(ys)
-        results.append(BoxedElement((lo_x, lo_y), (hi_x, hi_y), xs, ys, im, impix, basename, count))
-        count += 1
+        lo_x = min(xs)
+        hi_x = max(xs)
+        lo_y = min(ys)
+        hi_y = max(ys)
+        results.append(
+            BoxedElement(
+                (lo_x, lo_y),
+                (hi_x, hi_y),
+                xs, ys,
+                im, impix, basename, count))
 
     return results
 
 
-#It seems slightly ridiculous to load the image twice, but scipy seems incapable of actually manipulating and saving an RGBA PNG correctly. And while pygame is pretty good at that, it has little to no built-in analysis capabilities.
-
-if (len(sys.argv) > 1):
-    imgdir = "math_imgs"
-    nameext = sys.argv[1].rsplit(".", 1)
-    imgname = nameext[0]
-    extension = "." + nameext[1]
-    imgfile = imgdir + "/" + imgname + extension
-    #imgstrip = imgname + "_stripped" + extension
+# It seems slightly ridiculous to load the image twice, but scipy seems
+# incapable of actually manipulating and saving an RGBA PNG correctly. And
+# while pygame is pretty good at that, it has little to no built-in analysis
+# capabilities.
+def split_image(imgfile):
+    imgdir = os.path.dirname(imgfile)
+    basename = os.path.basename(imgfile)
+    imgname, extension = os.path.splitext(basename)
 
     if os.access(imgfile, os.F_OK):
 
@@ -110,9 +90,11 @@ if (len(sys.argv) > 1):
 
         labeled, num_features = ndimage.measurements.label(im_scipy)
 
-        label_indices = [(labeled == i).nonzero() for i in xrange(1, num_features+1)]
+        label_indices = [
+            (labeled == i).nonzero() for i in xrange(1, num_features+1)
+        ]
 
-        boxes = map_boxes(imgname, impix, im_pygame)
+        boxes = map_boxes(imgname, label_indices, impix, im_pygame)
 
         if not os.access(imgdir, os.F_OK):
             os.mkdir(imgdir)
@@ -123,12 +105,14 @@ if (len(sys.argv) > 1):
             box.write(imgdir, auxfile)
     else:
         print "File does not exist!"
-    #print str((box.nw, box.se))
-    #nw_x, nw_y = box.nw
-    #se_x, se_y = box.se
-    #impix[nw_x:se_x+1, nw_y:se_y+1] = 4282401023
 
-    #newim = impix.make_surface()
-    #pygame.image.save(newim, imgfile + "_stripped" + extension)
-else:
-    print "Needs a PNG file!"
+
+def main():
+    if (len(sys.argv) > 1):
+        return split_image(sys.argv[1])
+    else:
+        print "Needs a PNG file!"
+
+
+if __name__ == '__main__':
+    main()
