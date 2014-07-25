@@ -16,4 +16,5 @@ In short: If you're adventurous, you're welcome to try out the code as it stands
 All that being said, I have used SlyPress seriously in both a programming course and a for a few shorter presentations. If you can get used to the quirks it has currently, and work around its shortcomings, you may find some of the ideas behind it intriguing, and maybe even find the software itself somewhat useful.
 
 Enjoy!
+
 Palle Raabjerg
