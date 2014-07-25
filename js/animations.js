@@ -41,42 +41,9 @@ function Animations(idmanager, slidexml, htmlslides) {
 	animdata = auxanims;
     }
 
-    /*this.slidegc = function(xml_slide) {
-	var slideid = xml_slide.attr('id');
-	if (slideid !== undefined) {
-	    console.log('Slide ID for anim is: ' + slideid);
-	    console.log('Data for anim is: ' + animdata[slideid]);
-	    if (!(slideid in animdata)) {
-		console.log('Initiating animations');
-		animdata[slideid] = [[]];
-	    }
-	    else {
-		console.log('Waaaaat!');
-	    }
-	    $.each(animdata, function(i, slideanims) {
-		console.log('Animsklata ' + i + ' is: ' + slideanims);
-	    });
-	}
-    }*/
-
     this.newanims = function(slideid) {
 	animdata[slideid] = [[]];
     }
-
-/*    this.createemptyanims = function(xml_slide) {
-	//slideelements = $(slidexml).find('slide');
-	var auxanims = {};
-	slideid = xml_slide.attr('id');
-	console.log('Slide ID for anim is: ' + slideid);
-	if (animdata[slideid])
-	    auxanims[slideid] = animdata[slideid];
-	else
-	    auxanims[slideid] = [];
-	$.each(auxanims, function(i, slideanims) {
-	    console.log('Animdata ' + i + ' is: ' + slideanims);
-	});
-	animdata = auxanims;
-    }*/
 
     this.loadanims = function() {
 	var loadsuccess = true;
@@ -86,9 +53,6 @@ function Animations(idmanager, slidexml, htmlslides) {
 	    console.log('Creating new animations dict');
 	}
 	//console.log('Loaded anim: ' + animdata['d0']);
-	/*if (!loadsuccess) {
-	    animdata = {};
-	}*/
     }
 
     this.saveanims = function() {
@@ -127,21 +91,6 @@ function Animations(idmanager, slidexml, htmlslides) {
 	});
 	return result;
     }
-
-/*    this.eventHasActionWithId = function(actionname, event, id) {
-	$.each(event, function(action_index, action) {
-	    
-	});
-    }
-
-    this.slideHasActionWithId = function(actionname, slideid, id) {
-	var events = animdata[slideid];
-	var result = false;
-	anim_obj = this;
-	$.each(events, function(event_index, event) {
-	    var action_index = anim_obj.eventHasStepAction(actionname, event, id);
-	});
-    }*/
 
     this.stepActionsIndexes = function(actionname, slideid, id) {
 	var events = animdata[slideid];
@@ -215,7 +164,6 @@ function Animations(idmanager, slidexml, htmlslides) {
     this.treat_pause = function(xml_elt, slide_id) {
 	currentpause++;
 	var pid = idmanager.apply_pause_id(xml_elt);
-	//var events = animations.animdata[slide_id];
 	actionindex = this.events_haspause(slide_id, pid);
 	if (actionindex) {
 	    // Return the index of the event

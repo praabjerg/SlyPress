@@ -178,9 +178,6 @@ function SlideSwitcher(document, navigator) {
 	}
     }
 
-    /*for (var i = 0; i < numslides; i++) {
-    }*/
-
     this.destroySlideSwitcher = function() {
 	navigator.slide_goto(slideindex);
 	var oldswitchelt = switchelt;

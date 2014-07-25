@@ -83,23 +83,6 @@ function ActionSelector(animator, mouse, body) {
 	    return false;
 	});
 
-	/*regulator.keydown(function (event) {
-	    if(event.keyCode == 8) {
-		console.log('Hitting backspace!');
-		if(!event.shiftKey) {
-		    regulator.remove();
-		    //Actionlist is actually the real event!
-		    $.each(actionlist, function(i, saction) {
-			if((saction['action'] == action['action']) &&
-			   (saction['id'] == action['id'])) {
-			    action.reverse();
-			    actionlist.splice(i, 1);
-			}
-		    });
-		}
-	    }
-	});*/
-
 	regulator.mousedown(function (event) {
 	    event.preventDefault();
 	    event.stopPropagation();
@@ -178,7 +161,6 @@ function ActionSelector(animator, mouse, body) {
 	}).appendTo(body);
 	this.updateActionSelection();
 	actionselector.animate({'opacity': 1}, 500);
-	//actionselector.animate({'opacity', 1}, 500);
     }
 
     this.unsetActionSelection = function() {
@@ -190,8 +172,6 @@ function ActionSelector(animator, mouse, body) {
 						   }});
     }
 
-    /*this.deleteSelectedAction = function() {
-    }*/
 }
 
 function ElementSelector(animator, actionselector, mouse, eventeditor) {
@@ -326,7 +306,6 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		selelt.css('z-index', html_elt.css('z-index')-1);
 	    }
 	    selelt.prependTo(selparent);
-	    //selelt.prependTo(html_elt.parent());
 	    setSelectorCSS(html_elt, selelt);
 
 	    //Setup aux element list
@@ -381,56 +360,10 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	slide.children().each(function() {
 	    elementselector.makeSelector($(this), slide, slide);
 	});
-	//Do this recursively instead
-	/*bleamerelts.each(function() {
-	    var selelt = undefined;
-	    selelt = jQuery('<div/>', {
-		class: 'selectframe'
-	    });
-	    highlightelts[$(this).attr('id')] = selelt;
-	    var docposition = $(this).offset();
-	    var slideposition = slide.offset();
-	    var relativeTop = docposition.top-slideposition.top-4;
-	    var relativeLeft = docposition.left-slideposition.left-4;
-	    var width = $(this).width()+8;
-	    var height = $(this).height()+8;
-	    selelt.css({
-		'left': relativeLeft,
-		'top': relativeTop,
-		'width': width,
-		'height': height,
-		'z-index': 0
-	    });
-	    if($(this).parent().is('.slide')) {
-		selelt.css('z-index', $(this).css('z-index')-1);
-	    }
-	    selelt.prependTo(slide);
-
-	    //Setup aux element list
-	    auxelt = jQuery('<li/>', {
-		class: 'auxelement'
-	    }).appendTo(auxlist);
-	    auxelts[$(this).attr('id')] = auxelt;
-	    auxelt.css({'width': 100,
-			'height': 25});
-	    auxelt.data('eltid', $(this).attr('id'));
-	});*/
-
 	/* Create element-independent highlight, unhighlight and select functions
 	 * These are applied also to the list of elements created on the right of the slide */
-
 	this.setMouseSelect();
     }
-
-    this.cancelManipulation = function() {
-	/*bleamerelts.each(function(index, elt) {
-	    elt.css(origcss[elt.attr('id')]);
-	});
-	this.setManipulationKeys();*/
-    }
-
-    /*this.readRots
-    this.moveRots*/
 
     this.startManipulation = function(mantype) {
 	var mouseorigX = mouse.x;
@@ -446,9 +379,6 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	var stopfunc = function() {};
 	var cancfunc = function() {};
 
-	//if(event.which == 1) {
-	    //Stop manipulation and commit
-	//}
 	if(mantype == 'rotateZ') {
 	    readfunc = function(elt) {
 		var eltid = elt.attr('id');
@@ -851,7 +781,6 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	});
 	auxlist.remove();
 	$('.selected').removeClass('selected');
-	//bleamerelts.each(function() {$(this).css('background-color', highlightelts[$(this).attr('id')])});
 	bleamerelts.unbind('mouseover');
 	bleamerelts.unbind('mouseout');
 	bleamerelts.unbind('mousedown');
@@ -861,7 +790,6 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 function SlideSelector(numslides, navigator, animator, xml_slides, body) {
     var navigator = navigator;
     var selectorindex = 0;
-//    var slideindex = 0;
     var numslides = numslides;
 
     var thumbheight = 100;
@@ -888,11 +816,9 @@ function SlideSelector(numslides, navigator, animator, xml_slides, body) {
     };
 
     this.selectSlide = function() {
-	//slideindex = selectorindex;
 	animator.commitEvents();
 	navigator.slide_goto(selectorindex);
 	this.setIndicatorPos();
-	//slideid = $(xml_slides[slideindex]).attr('id');
     };
 
     this.slideListSetPos = function(index) {
@@ -1028,11 +954,6 @@ function EventSelector(animations, animator, navigator, elementselector, actions
 	    colourdistance = Math.round(1536/animations.numEvents(slideid));
 	console.log('Colour distance: ' + colourdistance);
 	var editor = this;
-	/*var initpos = jQuery('<li/>', {
-	    class: 'eventitem'
-	}).appendTo(eventul);
-	initpos.css({'background-color': 'rgb(125, 125, 125)',
-		     'height': eventheight});*/
 	$.each(eventlist, function(index, event) {
 	    var eventelt = jQuery('<li/>', {
 		class: 'eventitem'
@@ -1157,14 +1078,6 @@ function EventSelector(animations, animator, navigator, elementselector, actions
 	}
 	actionselector.updateActionSelection();
     }
-
-    /*this.deleteEvent = function() {
-	var eventindex = animator.get_eventindex();
-	animator.deleteLastEvent();
-	if(eventindex > 1)
-	else
-	    actionselector.clearAllActionRegulators();
-    }*/
 }
 
 function EventEditor(slidexml, document, numslides, xml_slides, slideparser, animations, animator, navigator) {
@@ -1178,7 +1091,6 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 
     var editpos = [50, 100];
 
-    //var slideid = '';
     var body = $('body');
 
     var mouse = new Mouse();
@@ -1187,12 +1099,6 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
     var elementselector = new ElementSelector(animator, actionselector, mouse, this);
     var slideselector = new SlideSelector(numslides, navigator, animator, xml_slides, body);
     var eventselector = new EventSelector(animations, animator, navigator, elementselector, actionselector, body);
-
-    /*this.setSlideIds = function() {
-	xml_slides.each(function() {
-	    console.log('SlideID: ' + $(this).attr('id'));
-	});
-    }*/
 
     this.setEditNavKeys = function() {
 	var eventeditor = this;
@@ -1346,13 +1252,8 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 	});
     };
 
-    /*this.setManipulationKeys = function() {
-    };*/
-
     this.setEditNavigation = function(index) {
 	$(document).unbind('keydown');
-	//slideindex = index;
-	//slideid = $(xml_slides[slideindex]).attr('id');
 	slideselector.setupSlideList();
 	slideselector.slideListSetPos(navigator.getSlideIndex());
 	eventselector.setupEventList();

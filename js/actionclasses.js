@@ -25,28 +25,6 @@ function QueueCounter() {
     }
 }
 
-/*function Action() {
-    this.continuations = [];
-}
-Action.prototype.addContinuation = function(contobj) {
-    this.continuations.push(contobj);
-}
-Action.prototype.numContinuations = function() {
-    return this.continuations.length;
-}
-Action.prototype.continuationData = function() {
-    var contdata = [];
-    $.each(this.continuations, function() {
-	contdata.push($(this).toData());
-    });
-    return contdata;
-}
-Action.prototype.runContinuations = function() {
-}
-
-Pause.prototype = new Action();
-Pause.prototype.constructor = Pause;*/
-
 function RotateZ(slide, data, queuename) {
     var data = data;
     var queuename = queuename;
@@ -500,19 +478,12 @@ function Pause(slide, data, queuename) {
     this.finish = function() {
 	console.log('Finishing off animations: ' + elts);
 	elts.finish(queuename);
-	/*elts.animate({
-	    opacity: 1
-	}, {duration: 0,
-	    queue: false});*/
     }
 
     this.toData = function() {
 	return {'action': 'pause', 'pid': data['pid']};
     }
 }
-
-/*PyTutor.prototype = new Action();
-PyTutor.prototype.constructor = PyTutor;*/
 
 function PyTutor(slide, data) {
     var data = data;

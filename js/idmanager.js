@@ -26,11 +26,9 @@ function IDManager() {
 		if(!$(this).is('bleamer')) {
 		    if($(this).attr('id')) {
 			ids[$(this).attr('id')] = 1;
-			//id_count['d'] += 1;
 		    }
 		    if($(this).attr('pid')) {
 			ids[$(this).attr('pid')] = 1;
-			//id_count['p'] += 1;
 		    }
 		}
 	    });

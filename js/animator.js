@@ -25,60 +25,6 @@ function Animator(animations, firstslide, current_objs) {
     var running_actions = [];
     var queuecounter = new QueueCounter();
 
-/*    var moveaction = function(id, duration, to_x, to_y, delay, continuation) {
-	if(typeof(delay)==='undefined') delay = 0;
-	if(typeof(continuation)==='undefined') continuation = false;
-	elt = currentslide.find('#' + id);
-	var reversal = function(css) {
-	    css[0].css(css[1]);
-	}
-	var reversal_data = [
-	    elt,
-	    {'top': elt.css('top'), 'left': elt.css('left')}
-	];
-	elt.delay(delay).animate({
-	    left: to_x,
-	    top: to_y
-	}, {duration: duration,
-	    easing:"easeInOutCubic",
-	    queue: false});
-	return {'reversal': {'fun': reversal, 'data': reversal_data}, 'fin': elt};
-    }
-
-    var fadeaction = function(id, delay, duration, to_a) {
-	elt = currentslide.find('#' + id);
-	var reversal = function(css) {
-	    css[0].css(css[1]);
-	}
-	var reversal_data = [
-	    elt,
-	    {'opacity': elt.css('opacity')}
-	];
-	elt.delay(delay).animate({
-	    opacity: to_a
-	}, {duration: duration,
-	    queue: false});
-	return {'reversal': {'fun': reversal, 'data': reversal_data}, 'fin': elt};
-    }
-
-    var pauseaction = function(pid) {
-	elts = currentslide.find('*[pid=' + pid + ']');
-	console.log('Number of elements to pause action: ' + elts.length);
-	var reversal = function(css) {
-	    css[0].each(function(i, elt) {
-		$(elt).css(css[1]);
-	    });
-	}
-	var reversal_data = [
-	    elts,
-	    {'opacity': 0}];
-	elts.animate({
-	    opacity: 1
-	}, {duration: 2000,
-	    queue: false});
-	return {'reversal': {'fun': reversal, 'data': reversal_data}, 'fin': elts};
-    }*/
-
     this.objectify_action = function(action, slide) {
 	var obj_action = false;
 	if (action['action'] == 'rotateZ') {
@@ -139,12 +85,6 @@ function Animator(animations, firstslide, current_objs) {
 	return obj_events;
     }
 
-    /*this.load_slide = function(slide) {
-	currentslide = slide;
-	event_index = 0;
-	events = objectify_events(animations.getslide(slide.attr('id')), currentslide);
-    }*/
-
     this.get_eventindex = function() {
 	return event_index;
     }
@@ -153,7 +93,6 @@ function Animator(animations, firstslide, current_objs) {
 	console.log('Loading slide: ' + slide.attr('id'));
 	currentslide = slide;
 	event_index = 0;
-	//events = animations.getslide(slide.attr('id'))
 	events = this.objectify_events(animations.getslide(slide.attr('id')), currentslide);
     }
 
@@ -163,20 +102,6 @@ function Animator(animations, firstslide, current_objs) {
 
     //Set first slide
     this.set_currentslide(firstslide);
-
-    /*this.run_animation = function(anim) {
-	var reversal = false;
-	var fin = false;
-	if(anim['action'] == 'pause') {
-	    revelts = pauseaction(anim['pid']);
-	    reversal = revelts['reversal'];
-	    fin = revelts['fin'];
-	}
-	if (fin) {
-	    last_event_objs.push(fin);
-	}
-	return reversal;
-    }*/
 
     this.commitEvents = function() {
 	animations.clearAllEvents(currentslide.attr('id'));
@@ -334,25 +259,4 @@ function Animator(animations, firstslide, current_objs) {
 
 	return [deleted, jumped];
     }
-
-    /*this.deleteLastEvent = function() {
-	var lastevent = reversal_stack[reversal_stack.length-1];
-	// Reverse last event
-	$.each(lastevent, function(i, action) {
-	    action.reverse();
-	});
-	if (event_index == 1) {
-	    // Then, if first event, simply empty
-	    length = lastevent.length;
-	    for(var i = 0; i < length; i += 1) {
-		lastevent.pop();
-	    }
-	}
-	else {
-	    // If not first event, delete event and skip one ahead
-	    events.splice(event_index-1, 1);
-	    event_index -= 1;
-	    this.jump_current_event();
-	}
-    }*/
 }

@@ -100,13 +100,6 @@ function Browser() {
     this.shoot_thumbnails = function(navigator) {
 	var numslides = navigator.get_numslides();
 	this.shoot_slides(navigator, 'thumb/slide', 0, numslides-1);
-	/*for(i = 0; i <= numslides-1; i++) {
-	    navigator.slide_goto(i);
-	    navigator.events_skip_to_end();
-	    //alert('Uuuh?');
-	    //this.screenshot_slide('thumb/slide_' + i + '.png');
-	}*/
-	//navigator.slide_goto(0);
 	this.resize_thumbnails();
     }
 }

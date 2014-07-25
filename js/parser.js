@@ -24,18 +24,6 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
     var animations = animations;
     var slideelements = xml_slides;
     var html_slides = html_slides;
-    //var slidecount = 0;
-    //var eltcount = 0;
-
-    /*this.setEltAbsolute = function(elt) {
-	var offset = elt.offset();
-	var poffset = elt.parent().offset();
-	var absposleft = offset.left - poffset.left;
-	var abspostop = offset.top - poffset.top;
-	elt.css({'position': 'absolute',
-		 'top': abspostop,
-		 'left': absposleft});
-    }*/
 
     this.setEltsAbsolute = function(slelt) {
 	var elts = slelt.find('.bleamerelt');
@@ -49,9 +37,6 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 						offset.left - poffset.left,
 						$(this).width(), $(this).height()];
 	});
-
-	/*console.log("Abspositions");
-	console.log(abspositions);*/
 
 	elts.each(function() {
 	    var eltid = $(this).attr('id');
@@ -139,8 +124,6 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 		data: {name: name, formula: formula, split: split},
 		dataType: "json",
 		async: false
-		/*success: function(data) {
-		}*/
 	    });
 
 	    var texelt;
@@ -198,10 +181,6 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 				    'height': height,
 				    'top': cy + 'px',
 				    'left': cx + 'px'});
-			/*imgelt.css('width', width);
-		      imgelt.css('height', height);
-		      imgelt.css('top', cy);
-		      imgelt.css('left', cx);*/
 			console.log('x: ' + cx);
 			console.log('y: ' + cy);
 
@@ -288,7 +267,6 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	//Parse images
 	else if(element.is('img')) {
 	    //eltcount += 1;
-	    //var height = 500;
 	    var source = element.attr('src');
 	    var alttext = element.text();
 	    var width = 0;
@@ -310,11 +288,6 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    retelt = imgelt;
 	    imgelt.css('height', height);
 	    imgelt.css('width', width);
-	    /*if (element.attr('height')) {
-		height = element.attr('height');
-	    }*/
-	    //element.attr('height', height);
-	    //imgelt.attr('height', height);
 	    idmanager.apply_id(element, imgelt);
 	}
 	else if(element.is('box')) {
@@ -422,10 +395,6 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 			var remnum = existing_steps.length - addnum;
 			animations.removeActions(slideid, existing_steps.splice(0, remnum));
 		    }
-		    /*for(var i = 0; i < steps; i++) {
-		      animations.insert_event(slide.attr('id'), [{'action': 'pystep', 'id': vis_id}]);
-		      console.log('Inserting event for visualizer: ' + vis_id);
-		      }*/
 		    //For testing purposes
 		    //animations.saveanims();
 		},
@@ -514,12 +483,4 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	animations.set_pauses(slelt.attr('id'));
 	return {'slide': slelt, 'aux_objs': aux_objs};
     }
-
-    /*function loadslides(ids, htmlslides, parser) {
-	slideelements = $(slidexml).find('slide');
-	slideelements.each(function() {
-	    slelt = parser.parse_slide($(this));
-	});
-    }*/
-
 }

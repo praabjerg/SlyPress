@@ -15,7 +15,6 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//var loadsuccess = true;
 function loadfile(fname, ftype) {
     var filedata = null;
     jQuery.ajax({
@@ -32,12 +31,9 @@ function loadfile(fname, ftype) {
     });
     return filedata;
 }
+
 //Stuff XML sheets into variables
-/*var slidexml = null;
-var animdata = null;*/
-//var animxml = null;
 function loadxml() {
-    //loadsuccess = true;
     var slidexml = loadfile('working.xml', 'xml');
     if (!slidexml) {
 	slidexml = loadfile('source.xml', 'xml');

@@ -51,7 +51,6 @@ function Navigator(animations, allslides, slideparser, controller, browser, xml,
 	var navigator = this;
 	$(document).keydown(function(event) {
 	    if (/*event.keyCode == '32' || */event.keyCode == '39' || event.keyCode == '34') {
-		//navigator.slide_fade_advance();
 		navigator.advance();
 	    }
 	    if (/*event.keyCode == '8' || */event.keyCode == '37' || event.keyCode == '33') {
@@ -76,9 +75,6 @@ function Navigator(animations, allslides, slideparser, controller, browser, xml,
 		event.preventDefault();
 		slideswitcher.setSwitchToSlideNavigation(slideindex, numslides);
 	    }
-	    /*if (event.keyCode == '190') {
-		slideswitcher.setSwitchToSlideNavigation(slideindex, numslides);
-	    }*/
 	    if (event.keyCode == '9') {
 		event.preventDefault();
 		event.stopPropagation();
@@ -87,17 +83,7 @@ function Navigator(animations, allslides, slideparser, controller, browser, xml,
 	});
     }
 
-    /*this.setEditNavigation = function() {
-	var eventeditor = new
-    }*/
-
-    //this.setSwitchToSlideNavigation = function() {
-	//$(document).unbind('keydown');
-	//var switcher = new SlideSwitcher(slideindex, numslides, document, this);
-    //}
-
     //Set navigation mode
-
     this.setPresentNavigation();
 
     this.is_advancing = function() {
@@ -132,7 +118,6 @@ function Navigator(animations, allslides, slideparser, controller, browser, xml,
     }
 
     this.previous = function() {
-	//animator.finish_last_event();
 	if (animator.first_event())
 	    this.slide_previous();
 	else {
@@ -178,34 +163,6 @@ function Navigator(animations, allslides, slideparser, controller, browser, xml,
     }
 
     this.setheadfoot(true);
-
-    /*this.slide_advance = function() {
-	if(slideindex < numslides-1) {
-	    nextslide.finish();
-	    if(!advancing) {
-		slideindex += 1;
-		advancing = true;
-		nextslide.css('z-index', 2);
-		this.setheadfoot(true);
-		controller.setslidenum(slideindex, numslides);
-		controller.settitle(nextslide);
-		nextslide.css({'opacity': 1});
-		//Stuff that does now not happen after animation
-		currentslide.remove();
-		currentslide = nextslide;
-		animator.set_current_objs(next_objs);
-		currentslide.css('z-index', 1);
-		console.log('Advance! Non-fade. Slideindex: ' + slideindex + ', Numslides: ' + numslides);
-		if (numslides > slideindex+1) {
-		    nexts = slideparser.parse_slidenum(slideindex+1, 0, false);
-		    nextslide = nexts['slide'];
-		    next_objs = nexts['aux_objs'];
-		}
-		animator.set_currentslide(currentslide);
-		advancing = false;
-	    }
-	}
-    }*/
 
     this.slide_fade_advance = function() {
 	if(slideindex < numslides-1) {
