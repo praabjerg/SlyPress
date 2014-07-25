@@ -252,7 +252,7 @@ class Bleamer:
         def loadpage(driver):
             sleep(2)
             driver.get('http://localhost:8080/present.html')
-        chromedriver = 'chromedriver'
+        chromedriver = './chromedriver'
         os.environ['webdriver.chrome.driver'] = chromedriver
         print("Loading Chromium!")
         self.webdriver = webdriver.Chrome(chromedriver)
