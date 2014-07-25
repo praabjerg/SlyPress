@@ -50,32 +50,32 @@ function Navigator(animations, allslides, slideparser, controller, browser, xml,
     this.setPresentNavigation = function() {
 	var navigator = this;
 	$(document).keydown(function(event) {
-	    if (/*event.keyCode == '32' || */event.keyCode == '39' || event.keyCode == '34') {
+            if (KEYMAP['next'].indexOf(event.keyCode) != -1) {
 		navigator.advance();
 	    }
-	    if (/*event.keyCode == '8' || */event.keyCode == '37' || event.keyCode == '33') {
+            if (KEYMAP['prev'].indexOf(event.keyCode) != -1) {
 		navigator.previous();
 	    }
-	    if (event.keyCode == '113') {
+            if (KEYMAP['singleshot'].indexOf(event.keyCode) != -1) {
 		browser.screenshot_slide('imgversion/imgslide', slideindex, animator.get_eventindex());
 	    }
-	    if (event.keyCode == '118') {
+/*	    if (event.keyCode == '118') {
 		browser.screenshot_slide_scrot('imgversion/imgslide', slideindex, animator.get_eventindex(), true);
 	    }
 	    if (event.keyCode == '119') {
 		browser.screenshot_slide_scrot('imgversion/imgslide', slideindex, animator.get_eventindex(), false);
-	    }
-	    if (event.keyCode == '114') {
+	    }*/
+            if (KEYMAP['thumbshots'].indexOf(event.keyCode) != -1) {
 		browser.shoot_thumbnails(navigator);
 	    }
-	    if (event.keyCode == '115') {
+            if (KEYMAP['resizethumbs'].indexOf(event.keyCode) != -1) {
 		browser.resize_thumbnails();
 	    }
-	    if (event.keyCode == '27' || event.keyCode == '116') {
+            if (KEYMAP['toggleswitcher'].indexOf(event.keyCode) != -1) {
 		event.preventDefault();
 		slideswitcher.setSwitchToSlideNavigation(slideindex, numslides);
 	    }
-	    if (event.keyCode == '9') {
+            if (KEYMAP['toggleedit'].indexOf(event.keyCode) != -1) {
 		event.preventDefault();
 		event.stopPropagation();
 		eventeditor.setEditNavigation(slideindex);

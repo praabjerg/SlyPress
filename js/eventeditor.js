@@ -748,7 +748,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	    eventeditor.setEditNavKeys();
 	});
 	$(document).keydown(function(event) {
-	    if(event.keyCode == 27) {
+            if (KEYMAP['canceledit'].indexOf(event.keyCode) != -1) {
 		selected.each(function() {
 		    cancfunc($(this));
 		});
@@ -1107,29 +1107,29 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 	    event.preventDefault();
 
 	    //Tab
-	    if(event.keyCode == 9) {
+            if (KEYMAP['toggleedit'].indexOf(event.keyCode) != -1) {
 		event.preventDefault();
 		event.stopPropagation();
 		eventeditor.unsetEditNavigation();
 	    }
 	    //Backspace
 	    //Maltron: 8
-	    if(event.keyCode == 90) {
+            if (KEYMAP['clearevent'].indexOf(event.keyCode) != -1) {
 		if (event.shiftKey)
 		    eventselector.clearEvent();
 		/*else
 		    actionselector.deleteSelectedAction();*/
 	    }
 	    //Maltron: 78
-	    if(event.keyCode == 65) {
+            if (KEYMAP['slideleft'].indexOf(event.keyCode) != -1) {
 		slideselector.selectorLeft();
 	    }
 	    //Maltron: 83
-	    if(event.keyCode == 68) {
+            if (KEYMAP['slideright'].indexOf(event.keyCode) != -1) {
 		slideselector.selectorRight();
 	    }
 	    //Maltron: 73
-	    if(event.keyCode == 83) {
+            if (KEYMAP['eventdown'].indexOf(event.keyCode) != -1) {
 		if (event.shiftKey)
 		    eventselector.addEventBeforeThis();
 		else if (event.altKey)
@@ -1138,14 +1138,14 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		    eventselector.eventSelectorDown();
 	    }
 	    //Maltron: 89
-	    if(event.keyCode == 87) {
+            if (KEYMAP['eventup'].indexOf(event.keyCode) != -1) {
 		if (event.altKey)
 		    eventselector.moveEventUp();
 		else
 		    eventselector.eventSelectorUp();
 	    }
 	    // Enter - select new slide
-	    if(event.keyCode == 13) {
+            if (KEYMAP['selectslide'].indexOf(event.keyCode) != -1) {
 		slideselector.selectSlide();
 		eventselector.updateEventList();
 		elementselector.setHoverSelection(navigator.getCurrentSlide());
@@ -1153,7 +1153,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 	});
 	$(document).keydown(function () {
 	    // 'r' - rotate
-	    if(event.keyCode == 82) {
+            if (KEYMAP['rotate'].indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('rotateZ');
 		$(document).keydown(function(event) {
@@ -1165,7 +1165,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // 'g' - grab
-	    if(event.keyCode == 71) {
+            if (KEYMAP['grab'].indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('move');
 		$(document).keydown(function(event) {
@@ -1177,7 +1177,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // 'f' - fade
-	    if(event.keyCode == 70) {
+            if (KEYMAP['fade'].indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('fade');
 		$(document).keydown(function(event) {
@@ -1190,7 +1190,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 	    }
 	    // 'c' - scale
 	    // Maltron: 67
-	    if(event.keyCode == 84) {
+            if (KEYMAP['scale'].indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('scale');
 		$(document).keydown(function(event) {
@@ -1202,7 +1202,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // Maltron: 76
-	    if(event.keyCode == 89) {
+            if (KEYMAP['rotateY'].indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('rotateY');
 		$(document).keydown(function(event) {
@@ -1214,7 +1214,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // Maltron: 88
-	    if(event.keyCode == 88) {
+            if (KEYMAP['rotateX'].indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('rotateX');
 		$(document).keydown(function(event) {
@@ -1226,7 +1226,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // Maltron: 87
-	    if(event.keyCode == 69) {
+            if (KEYMAP['sizew'].indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('sizew');
 		$(document).keydown(function(event) {
@@ -1238,7 +1238,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // Maltron: 72
-	    if(event.keyCode == 81) {
+            if (KEYMAP['sizeh'].indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('sizeh');
 		$(document).keydown(function(event) {

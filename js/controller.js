@@ -79,14 +79,13 @@ function SlideSwitcher(document, navigator) {
 	});
 	var slideswitcher = this;
 	$(document).keydown(function(event) {
-	    if (event.keyCode == '32' || event.keyCode == '39' || event.keyCode == '34') {
-		//navigator.slide_fade_advance();
+            if (KEYMAP['next'].indexOf(event.keyCode) != -1) {
 		slideswitcher.advance();
 	    }
-	    if (event.keyCode == '8' || event.keyCode == '37' || event.keyCode == '33') {
+            if (KEYMAP['prev'].indexOf(event.keyCode) != -1) {
 		slideswitcher.previous();
 	    }
-	    if (event.keyCode == '27' || event.keyCode == '116') {
+            if (KEYMAP['toggleswitcher'].indexOf(event.keyCode) != -1) {
 		event.preventDefault();
 		slideswitcher.destroySlideSwitcher();
 	    }
