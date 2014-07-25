@@ -16,6 +16,8 @@
 
 import os, math
 
+from splitmath import split_image
+
 def compile_img(name, packstring, filetype, dpi, formula):
     mathstr = packstring + '\\' + filetype + ' ' + '\\dpi{' + str(dpi) + '} ' + formula
     os.system('./mathtex "' + mathstr + '" -o ' + name)
@@ -37,7 +39,7 @@ def compile_elt(name, formula, split):
 
     if (split == "yes"):
         print("Splitting!")
-        os.system('python2 splitmath.py ' + filename)
+        split_image(os.path.join(imgpath, filename))
         #with open(imgpath + name + '/info', 'r') as finfo:
         #    for line in finfo:
         #        infoarray = line.split(' ')
