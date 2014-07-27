@@ -55,12 +55,10 @@ function Animations(idmanager, slidexml, htmlslides) {
 	//console.log('Loaded anim: ' + animdata['d0']);
     }
 
-    this.saveanims = function() {
-	var animjson = JSON.stringify(animdata);
-	jQuery.post('outanims', {animdata: animjson}, function(msg) {
-	    console.log("Anims saved: " + msg);
-	}, 'text');
-    }
+    this.serialize = function() {
+        return JSON.stringify(animdata);
+    };
+
 
     this.clearAllEvents = function(slideid) {
 	animdata[slideid] = [];

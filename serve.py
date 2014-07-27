@@ -17,6 +17,7 @@
 
 import json
 import os
+import re
 import shutil
 from time import sleep
 
@@ -34,21 +35,30 @@ jenc = json.JSONEncoder()
 
 
 class BackupSys(object):
-    numfilename = 'backup/num'
+    backup_dir = 'backup'
 
     def __init__(self):
-        self.num = 0
-        if os.path.exists(self.numfilename):
-            with open(self.numfilename) as f:
-                self.num = int(f.readline())
+        self._num = 0
+        existing = os.listdir(self.backup_dir)
+        working_rx = re.compile(r'^working(\d+)\.(?:json|xml)$')
+        for name in existing:
+            match = working_rx.match(name)
+            if match:
+                self._num = max(self._num, int(match.group(1)))
 
-    def increment(self):
-        self.num += 1
-        with open(self.numfilename, 'w') as f:
-            f.write(str(self.num))
-
-    def get_num(self):
-        return self.num
+    def save(self, animdata, xmldata):
+        self._num += 1
+        json_name = os.path.join(
+            self.backup_dir, 'working{}.json'.format(self._num))
+        xml_name = os.path.join(
+            self.backup_dir, 'working{}.xml'.format(self._num))
+        # Python 2/3-hack: Open in binary mode to get bytestrings rather than
+        # unicode in Python 3; encode because we actually have unicode
+        # objects...
+        with open(json_name, 'wb') as jsonfile, \
+                open(xml_name, 'wb') as xmlfile:
+            jsonfile.write(animdata.encode('utf-8'))
+            xmlfile.write(xmldata.encode('utf-8'))
 
 
 class Bleamer(object):
@@ -117,10 +127,6 @@ class Bleamer(object):
         return generate_trace.get_json_trace(pyfile)
 
     @cherrypy.expose
-    def incrementbackup(self):
-        self.backupsys.increment()
-
-    @cherrypy.expose
     def mathtex(self, name, formula, split):
         force = False
         if (not os.path.isfile('math_imgs/' + name + '.png')) or force:
@@ -128,27 +134,16 @@ class Bleamer(object):
             compile_elt(name, formula, split)
 
     @cherrypy.expose
-    def outanims(self, animdata):
-        # cherrypy.response.headers['Content-Type'] = 'application/json'
-        working_name = 'working.json'
-        backup_name = 'backup/working{}.json'.format(self.backupsys.get_num())
-        with open(working_name, 'w') as working, \
-                open(backup_name, 'w') as backup:
-            working.write(animdata)
-            backup.write(animdata)
-        return json.dumps('Success!')
-
-    @cherrypy.expose
-    def outxml(self, xmlstring):
-        outstring = xmlstring.encode('utf-8')
-        # cherrypy.response.headers['Content-Type'] = 'application/json'
-        working_name = 'working.xml'
-        backup_name = 'backup/working{}.xml'.format(self.backupsys.get_num())
-        with open(working_name, 'w') as working, \
-                open(backup_name, 'w') as backup:
-            working.write(outstring)
-            backup.write(outstring)
-        return json.dumps('Success!')
+    def save(self, animdata, xmldata):
+        # Python 2/3-hack: Open in binary mode to get bytestrings rather than
+        # unicode in Python 3; encode because we actually have unicode
+        # objects...
+        with open('working.json', 'wb') as jsonfile, \
+                open('working.xml', 'wb') as xmlfile:
+            jsonfile.write(animdata.encode('utf-8'))
+            xmlfile.write(xmldata.encode('utf-8'))
+        self.backupsys.save(animdata, xmldata)
+        return 'Success!'
 
 
 config = {
