@@ -1,10 +1,9 @@
 Stuff to install (there may be more that I've overlooked):
+apt-get install python-cherrypy3
 apt-get install python-selenium
 apt-get install chromium-chromedriver (or chrome-chromedriver?)
 apt-get install python-scipy
-
-Edit serve.conf to change paths to your working directory. (Search-replace should do it.)
-Change homepath variable in mathtex.py for the same reason.
+apt-get install python-pygame
 
 User instructions:
 1. Edit initial skeleton of presentation (source.xml)
