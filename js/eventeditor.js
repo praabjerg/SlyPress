@@ -1264,18 +1264,28 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 	this.setEditNavKeys();
     };
 
+    this.saveState = function () {
+        var animdata = animations.serialize();
+        var xmldata = (new XMLSerializer()).serializeToString(slidexml);
+        jQuery.post(
+            'save',
+            {animdata: animdata, xmldata: xmldata},
+            function(msg) {
+	        console.log("Saved: " + msg);
+	    },
+            'text');
+    };
+
     this.unsetEditNavigation = function() {
-	animator.commitEvents();
-	incrementbackup();
-	animations.saveanims();
-	savexml(slidexml);
-	slideselector.destroySlideList();
-	eventselector.destroyEventList();
-	elementselector.unsetHoverSelection(navigator.getCurrentSlide());
-	actionselector.unsetActionSelection();
-	$('#slidebox').animate({top: 0, left: 0}, 300);
-	$(document).unbind('keydown');
-	$('#slidebox').unbind('keydown');
-	navigator.setPresentNavigation();
+        animator.commitEvents();
+        this.saveState();
+        slideselector.destroySlideList();
+        eventselector.destroyEventList();
+        elementselector.unsetHoverSelection(navigator.getCurrentSlide());
+        actionselector.unsetActionSelection();
+        $('#slidebox').animate({top: 0, left: 0}, 300);
+        $(document).unbind('keydown');
+        $('#slidebox').unbind('keydown');
+        navigator.setPresentNavigation();
     };
 }

@@ -43,18 +43,3 @@ function loadxml() {
     }
     return slidexml;
 }
-
-function savexml(slidexml) {
-    var xmldata = (new XMLSerializer()).serializeToString(slidexml);
-    jQuery.post('outxml', {xmlstring: xmldata}, function(msg) {
-	console.log("XML saved: " + msg);
-    }, 'text');
-}
-
-function incrementbackup() {
-    jQuery.ajax({
-	type: 'GET',
-	url: 'incrementbackup',
-	async: false
-    });
-}
