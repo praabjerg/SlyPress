@@ -68,8 +68,10 @@ class Bleamer(object):
         def loadpage(driver):
             sleep(2)
             driver.get('http://localhost:8080/present.html')
-
+        #Chrome
         chromedriver = './chromedriver'
+        #Chromium
+        #chromedriver = '/usr/lib/chromium-browser/chromedriver'
         chrome_options =  selenium.webdriver.chrome.options.Options()
         chrome_options.add_argument('--test-type')
         chrome_options.add_argument('browser')

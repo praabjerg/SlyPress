@@ -59,7 +59,7 @@ function Browser() {
 		    });
     }
 
-    this.shoot_slides = function(navigator, file_prefix, index, up_to) {
+    this.shoot_slides = function(navigator, file_prefix, index, up_to, continuation) {
 	browser = this;
 	navigator.slide_goto(index);
 	navigator.events_skip_to_end();
@@ -73,9 +73,11 @@ function Browser() {
 		     async: true,
 		     complete: function() {
 			 if(index < up_to)
-			     browser.shoot_slides(navigator, file_prefix, index+1, up_to);
-			 else
+			     browser.shoot_slides(navigator, file_prefix, index+1, up_to, continuation);
+			 else {
 			     navigator.slide_goto(0);
+                             continuation();
+                         }
 		     }
 		    });
     }
@@ -99,7 +101,9 @@ function Browser() {
 
     this.shoot_thumbnails = function(navigator) {
 	var numslides = navigator.get_numslides();
-	this.shoot_slides(navigator, 'thumb/slide', 0, numslides-1);
-	this.resize_thumbnails();
+        var browser = this;
+	this.shoot_slides(navigator, 'thumb/slide', 0, numslides-1,
+                          function() {browser.resize_thumbnails()});
+	//this.resize_thumbnails();
     }
 }
