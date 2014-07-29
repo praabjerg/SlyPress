@@ -128,28 +128,6 @@ Date: Wed Jan 19, 2011
 
 
 
-== jQuery terminal - LGPL Version 3 and others ==
-Licensed under GNU LGPL Version 3 license
-Copyright (c) 2011-2013 Jakub Jankiewicz <http://jcubic.pl>
-
-Includes:
-Storage plugin Distributed under the MIT License
-Copyright (c) 2010 Dave Schindler
-
-jQuery Timers licenced with the WTFPL
-<http://jquery.offput.ca/every/>
-
-Cross-Browser Split 1.1.1
-Copyright 2007-2012 Steven Levithan <stevenlevithan.com>
-Available under the MIT License
-
-sprintf.js
-Copyright (c) 2007-2013 Alexandru Marasteanu <hello at alexei dot ro>
-licensed under 3 clause BSD license
-
-
-
-
 == jQuery 2d/3d Transform v0.9.5 - MIT and GPL Version 2 ==
 Extend jQuery animate function adding css3 2D & 3D animation.
 Copyright 2012, Thomas THELLIEZ (http://eenox.net/)
