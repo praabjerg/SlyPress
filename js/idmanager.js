@@ -17,9 +17,14 @@
 
 function IDManager() {
     var ids = new Object();
+    /* We keep track of element ids and pause ids separately */
     var id_count = {'d': 0,
 		    'p': 0};
 
+    /* Register all existing ids in the ids hashmap
+     * 'pid' attributes are specific for <pause/> tags.
+     * @param {Document} slidexml - Document to scour for ids
+     */
     this.register_ids = function(slidexml) {
 	$(slidexml).find('*').each(
 	    function(){
@@ -34,6 +39,12 @@ function IDManager() {
 	    });
     }
 
+    /* Generate a new id, avoiding any id in the hashmap
+     * We keep track with counters (one for each id type).
+     * If a counter's position conflicts with an existing id,
+     * we increment the counter.
+     * @param {string} prefix - Id type prefix (usually either 'd' for ordinary element tags, or 'p' for pause tags)
+     */
     this.new_id = function(prefix) {
 	while(ids[(prefix + id_count[prefix])]) {
 	    console.log('ID is used');
@@ -45,6 +56,9 @@ function IDManager() {
 	return ret_id;
     }
 
+    /* If XML element has no id attribute, generate a new
+     * id and apply it.
+     */
     this.apply_id_to_xmlevent = function(xml_elt) {
 	var xml_id = xml_elt.attr('id');
 	if(!xml_id) {
@@ -58,8 +72,10 @@ function IDManager() {
 	}
     }
 
-    //If XML element has ID, apply this to HTML. Returns [false, id]
-    //If not, apply a new ID instead. Returns [true, id]
+    /* For when we do HTML generation.
+     * If XML element has ID, apply this to HTML. Returns [false, id]
+     * If not, apply a new ID instead. Returns [true, id]
+     */
     this.apply_id = function(xml_elt, html_elt) {
 	var xml_id = xml_elt.attr('id');
 	if(xml_id) {
@@ -75,6 +91,9 @@ function IDManager() {
 	}
     }
 
+    /* If pause tag has no id attribute, generate a new
+     * id and apply it.
+     */
     this.apply_pause_id = function(xml_elt) {
 	if (xml_elt.attr('pid')) {
 	    return xml_elt.attr('pid');
