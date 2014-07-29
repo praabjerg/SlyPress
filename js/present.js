@@ -15,10 +15,11 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var KEYMAP = KEYMAPS['qwerty'];
+var KEYMAP = KEYMAPS.qwerty;
 
 $(window).load(
     function() {
+        "use strict";
 	//Set resolution
 	//Load XML and animations
 	var slidexml = loadxml();

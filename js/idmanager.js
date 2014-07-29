@@ -16,7 +16,7 @@
  */
 
 function IDManager() {
-    var ids = new Object();
+    var ids = {};
     /* We keep track of element ids and pause ids separately */
     var id_count = {'d': 0,
 		    'p': 0};
@@ -37,7 +37,7 @@ function IDManager() {
 		    }
 		}
 	    });
-    }
+    };
 
     /* Generate a new id, avoiding any id in the hashmap
      * We keep track with counters (one for each id type).
@@ -54,7 +54,7 @@ function IDManager() {
 	id_count[prefix] += 1;
 	ids[ret_id] = 1;
 	return ret_id;
-    }
+    };
 
     /* If XML element has no id attribute, generate a new
      * id and apply it.
@@ -70,7 +70,7 @@ function IDManager() {
 	else {
 	    return [false, xml_id];
 	}
-    }
+    };
 
     /* For when we do HTML generation.
      * If XML element has ID, apply this to HTML. Returns [false, id]
@@ -89,7 +89,7 @@ function IDManager() {
 	    html_elt.attr('id', id);
 	    return [true, id];
 	}
-    }
+    };
 
     /* If pause tag has no id attribute, generate a new
      * id and apply it.
@@ -103,5 +103,5 @@ function IDManager() {
 	    xml_elt.attr('pid', pid);
 	    return pid;
 	}
-    }
+    };
 }

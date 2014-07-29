@@ -31,7 +31,7 @@ function Animations(idmanager, slidexml, htmlslides) {
         var auxanims = {};
         slideelements.each(function() {
             var slideid = $(this).attr('id');
-            if (!(slideid === undefined)) {
+            if (slideid !== undefined) {
                 //console.log('Slide ID for anim is: ' + slideid);
                 if (animdata[slideid])
                     auxanims[slideid] = animdata[slideid];
@@ -43,13 +43,13 @@ function Animations(idmanager, slidexml, htmlslides) {
             console.log('Animdata ' + i + ' is: ' + slideanims);
         });
         animdata = auxanims;
-    }
+    };
 
     /* Initialize/reset a slide-slot in the animation data.
      */
     this.newanims = function(slideid) {
 	animdata[slideid] = [[]];
-    }
+    };
 
     this.loadanims = function() {
 	var loadsuccess = true;
@@ -59,7 +59,7 @@ function Animations(idmanager, slidexml, htmlslides) {
 	    console.log('Creating new animations dict');
 	}
 	//console.log('Loaded anim: ' + animdata['d0']);
-    }
+    };
 
     this.serialize = function() {
         return JSON.stringify(animdata);
@@ -71,7 +71,7 @@ function Animations(idmanager, slidexml, htmlslides) {
      */
     this.clearAllEvents = function(slideid) {
 	animdata[slideid] = [];
-    }
+    };
 
     /* Commit modified event to animation data.
      */
@@ -81,11 +81,11 @@ function Animations(idmanager, slidexml, htmlslides) {
 	    commitlist.push(eventobj.toData());
 	});
 	animdata[slideid][index] = commitlist;
-    }
+    };
 
     this.getslide = function(id) {
 	return animdata[id];
-    }
+    };
 
     /* Step actions: Special actions generated automatically by
      * plugins.
@@ -98,8 +98,8 @@ function Animations(idmanager, slidexml, htmlslides) {
     this.eventHasStepAction = function(actionname, event, id) {
 	var result = false;
 	$.each(event, function(action_index, action) {
-	    if (action['action'] == actionname) {
-		if (action['id'] == id) {
+	    if (action.action == actionname) {
+		if (action.id == id) {
 		    result = action_index;
 		    //Returning false ends the loop
 		    return false;
@@ -107,7 +107,7 @@ function Animations(idmanager, slidexml, htmlslides) {
 	    }
 	});
 	return result;
-    }
+    };
 
     /* Return a list of pairs identifying all actions of a given name.
      * Each pair is on the form [event_index, action_index].
@@ -118,17 +118,17 @@ function Animations(idmanager, slidexml, htmlslides) {
 	var anim_obj = this;
 	$.each(events, function(event_index, event) {
 	    var action_index = anim_obj.eventHasStepAction(actionname, event, id);
-	    if (!(action_index === false))
+	    if (action_index !== false)
 		result.push([event_index, action_index]);
 	});
 	return result;
-    }
+    };
 
     /* Get number of events in a slide.
      */
     this.numEvents = function(slideid) {
 	return animdata[slideid].length;
-    }
+    };
 
     //Ooh. Bug? Using event_index on animdata here... Yeah. Should be fixed.
     //But is used only in special cases for PyTutor currently.
@@ -141,7 +141,7 @@ function Animations(idmanager, slidexml, htmlslides) {
 	    if (animdata[slideid][event_index].length == 0)
 		animdata[slideid].splice(event_index, 1);
 	});
-    }
+    };
 
     /* Add multiple events at once. Useful for adding
      * step events.
@@ -151,15 +151,15 @@ function Animations(idmanager, slidexml, htmlslides) {
 	for (var i = event_index; i < (event_index + num); i++) {
 	    this.insert_event(slideid, event, i+1);
 	}
-    }
+    };
 
     /* Check if event has a pause action
      */
     this.event_haspause = function(event, pid) {
 	var result = false;
 	$.each(event, function(j, action) {
-	    if (action['action'] == 'pause') {
-		if (action['pid'] == pid) {
+	    if (action.action == 'pause') {
+		if (action.pid == pid) {
 		    result = j;
 		    //Returning false ends the loop
 		    return false;
@@ -167,7 +167,7 @@ function Animations(idmanager, slidexml, htmlslides) {
 	    }
 	});
 	return result;
-    }
+    };
 
     /* Check if list of events has pause pid already.
      * If they do, return position with [event_index, action_index].
@@ -185,13 +185,13 @@ function Animations(idmanager, slidexml, htmlslides) {
 	    }
 	});
 	return result;
-    }
+    };
 
     /* Insert single event into slide.
      */
     this.insert_event = function(slideid, new_event, before) {
 	animdata[slideid].splice(before,0,new_event);
-    }
+    };
 
     /* Called from setpauses_rec.
      * xml_elt is a pause tag from the XML
@@ -221,7 +221,7 @@ function Animations(idmanager, slidexml, htmlslides) {
 		lastpauseindex += 1;
 	    }
 	}
-    }
+    };
 
     /* Recursively set pause pids and opacity appropriately
      * for step-by-step reveal of the slide.
@@ -262,7 +262,7 @@ function Animations(idmanager, slidexml, htmlslides) {
                  * and update the latest pid.
                  */
 		var subeltpausepid = anim_obj.setpauses_rec($(this), slide, html_slide);
-		if(subeltpausepid[0] == true) {
+		if(subeltpausepid[0] === true) {
 		    pauseseen = true;
 		    pid = subeltpausepid[1];
 		}
@@ -273,14 +273,14 @@ function Animations(idmanager, slidexml, htmlslides) {
          * pid should contain the latest seen pid.
          */
 	return [pauseseen, pid];
-    }
+    };
 
     this.set_pauses = function(slideid) {
 	var xml_slide = $(slidexml).find('#' + slideid);
 	var html_slide = htmlslides.find('#' + slideid);
 	lastpauseindex = false;
 	this.setpauses_rec(xml_slide, xml_slide, html_slide);
-    }
+    };
 
     this.loadanims();
 }
