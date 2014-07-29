@@ -1,0 +1,8 @@
+\pagestyle{empty}
+\begin{document}
+\setlength{\parindent}{0pt}
+\newcommand{\amsatop}[2]{{\genfrac{}{}{0pt}{1}{#1}{#2}}}
+\newcommand{\twolines}[2]{{\amsatop{\mbox{#1}}{\mbox{#2}}}}
+\newcommand{\fs}{{5}}
+\normalsize
+\noindent

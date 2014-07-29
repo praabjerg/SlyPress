@@ -28,8 +28,9 @@ from multiprocessing import Process
 from scipy import misc
 import cherrypy
 
-from mathtex import compile_elt
-
+#from mathtex import compile_elt
+from pngtex import latextopng
+import splitmath
 
 jenc = json.JSONEncoder()
 
@@ -129,11 +130,15 @@ class Bleamer(object):
         return generate_trace.get_json_trace(pyfile)
 
     @cherrypy.expose
-    def mathtex(self, name, formula, split):
+    def latex(self, name, preamble, formula, dpi, split):
         force = False
-        if (not os.path.isfile('math_imgs/' + name + '.png')) or force:
-            shutil.rmtree('math_imgs/' + name, True)
-            compile_elt(name, formula, split)
+        if (not os.path.isfile('latex/imgs/' + name + '.png')) or force:
+            shutil.rmtree('latex/imgs/' + name, True)
+            latextopng(name, preamble, formula, dpi)
+        if (split == "yes"):
+            print("Splitting!")
+            splitmath.split_image(os.path.join('latex/imgs/', name + '.png'))
+            #compile_elt(name, formula, split)
 
     @cherrypy.expose
     def save(self, animdata, xmldata):
@@ -176,7 +181,7 @@ DIRS = (
     'pythontutor',
     'python',
     'imgs',
-    'math_imgs',
+    'latex/imgs',
     'videos',
     'thumb',
 )

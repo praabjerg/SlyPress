@@ -120,8 +120,8 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    /* Images will be generated if the info file does not exist */
 	    jQuery.ajax({
 		type: "POST",
-		url: 'mathtex',
-		data: {name: name, formula: formula, split: split},
+		url: 'latex',
+		data: {name: name, preamble: '', formula: formula, dpi: 1500, split: split},
 		dataType: "json",
 		async: false
 	    });
@@ -136,7 +136,7 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    else {
 		texelt = jQuery('<img/>', {
 		    class: 'mathtex',
-		    src: 'math_imgs/' + name + '.png',
+		    src: 'latex/imgs/' + name + '.png',
 		    alt: name
 		}).appendTo(htmlparent);
 	    }
@@ -147,7 +147,7 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 		var info;
 		jQuery.ajax({
 		    type: "GET",
-		    url: 'math_imgs/' + name + '/info',
+		    url: 'latex/imgs/' + name + '/info',
 		    dataType: "text",
 		    async: false,
 		    success: function(data) {
@@ -169,7 +169,7 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 			var cy = inf_array[4];
 
 			var imgelt = jQuery('<img/>', {
-			    src: 'math_imgs/' + name + '/' + id + '.png',
+			    src: 'latex/imgs/' + name + '/' + id + '.png',
 			    alt: name + '/' + id,
 			}).appendTo(texelt);
 			/* Make modifiable */

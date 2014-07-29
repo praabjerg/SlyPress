@@ -35,7 +35,7 @@
   </slide>
   <slide>
     <title>Mathtex</title>
-    <mathtex name="testformula" split="yes">\sqrt{2^x + 3^{x^y}}</mathtex>
+    <mathtex name="testformula" split="yes">$\sqrt{2^x + 3^{x^y}}$</mathtex>
   </slide>
   <slide>
     <title>Slide with Python Tutor</title>
