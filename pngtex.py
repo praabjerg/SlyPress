@@ -1,24 +1,18 @@
-from os import chdir, getcwd
+import os
 from shutil import copytree, rmtree, move
 from subprocess import call
-import sys
+import tempfile
 
-def latextopng(name, preamble, code, dpi, sourcedir='latex/packages', tempdir='latex/temp', targetdir='latex/imgs'):
-    copytree(sourcedir, tempdir)
-    with open('latex/template/docclass', 'r') as docclassfile, \
-            open('latex/template/begindoc', 'r') as beginfile, \
-            open('latex/template/enddoc', 'r') as endfile:
-        docclass = docclassfile.read()
-        begindoc = beginfile.read()
-        enddoc = endfile.read()
-    mainstring = docclass + "\n" + preamble + "\n" + begindoc + "\n" + code + "\n" + enddoc
+
+def latextopng(name, preamble, code, dpi, targetdir='latex/imgs'):
+    tempdir = tempfile.mkdtemp()
+    with open('latex/template.tex', 'r') as f:
+        template = f.read()
+    mainstring = template.replace('<<formula>>', code)
     with open(tempdir + '/' + name + '.tex', 'w') as mainfile:
         mainfile.write(mainstring)
-    olddir = getcwd()
-    chdir(tempdir)
-    call(["latex", name + ".tex"])
-    call(["dvipng", "-T", "tight", "-D", str(dpi), "-bg", "Transparent", "-o", name + ".png", name + ".dvi"])
+    call(["latex", name + ".tex"], cwd=tempdir)
+    call(["dvipng", "-T", "tight", "-D", str(dpi), "-bg", "Transparent", "-o", name + ".png", name + ".dvi"], cwd=tempdir)
     #call(["convert", "-density", str(dpi), "-trim", name + ".pdf", name + ".png"])
-    chdir(olddir)
     move(tempdir + '/' + name + '.png', targetdir)
-    #rmtree(tempdir)
+    rmtree(tempdir)
