@@ -16,15 +16,18 @@
  */
 
 function getRandom(min, max) {
+    "use strict";
     return min + Math.floor(Math.random() * (max - min + 1));
 }
 
+/* Class for parsing slides
+ */
 function SlideParser(idmanager, animations, xml_slides, html_slides) {
-    var idmanager = idmanager;
-    var animations = animations;
+    "use strict";
     var slideelements = xml_slides;
-    var html_slides = html_slides;
 
+    /* Calculate and set elements to absolute positioning.
+     */
     this.setEltsAbsolute = function(slelt) {
 	var elts = slelt.find('.bleamerelt');
 	//var elts = $('.bleamerelt');
@@ -66,11 +69,16 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 			    });
 	    }
 	});
-    }
+    };
 
+    /* Parse XML element recursively
+     * All animateable elements are given the class "bleamerelt"
+     */
     this.parse_element = function(element, htmlparent, aux_objs, slide) {
 	var parse_obj = this;
 	var retelt = false;
+        /* anim elements become spans
+         */
 	if(element.is('anim')) {
 	    var animelt = jQuery('<span/>').appendTo(htmlparent);
 	    retelt = animelt;
@@ -82,6 +90,12 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 		}
 	    );
 	}
+
+        /* itemize elements become unordered lists.
+           ul elements are given the class "bullets"
+           li elements are given the class "bullet", and
+           "bleamerelt", to allow them to be animated.
+         */
 	else if(element.is('itemize')) {
 	    //eltcount += 1;
 	    var itemizelt = jQuery('<ul/>', {
@@ -108,16 +122,20 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 		    }
 		});
 	}
+
+        /* mathtex elements are compiled with LaTeX and then inserted
+         * as animateable imgs with the class "mathtex"
+         */
 	else if(element.is('mathtex')) {
 	    var name = element.attr('name');
-	    var split = "no"
+	    var split = "no";
 	    var elt_split = element.attr('split');
 	    if (elt_split) {
-		var split = elt_split;
+		split = elt_split;
 	    }
 	    var formula = element.text();
 
-	    /* Images will be generated if the info file does not exist */
+	    //Images will be generated if the info file does not exist
 	    jQuery.ajax({
 		type: "POST",
 		url: 'latex',
@@ -128,11 +146,14 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 
 	    var texelt;
 
+            //If we split the compiled image, we collect all the elements in a div
 	    if (split == "yes") {
 		texelt = jQuery('<div/>', {
 		    class: 'mathtex'
 		}).appendTo(htmlparent);
 	    }
+
+            //If we don't split it, we just put the image in its own img tag.
 	    else {
 		texelt = jQuery('<img/>', {
 		    class: 'mathtex',
@@ -143,6 +164,10 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    idmanager.apply_id(element, texelt);
 	    retelt = texelt;
 
+            /* If the image was split, we need to reed the resulting info file
+             * to get the position of each of the sub-elements, and then insert
+             * the images into the div with those coordinates.
+             */
 	    if (split == "yes") {
 		var info;
 		jQuery.ajax({
@@ -155,7 +180,7 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 		    }
 		});
 
-		var info = info.split('\n');
+		info = info.split('\n');
 		var max_width = 0;
 		var max_height = 0;
 
@@ -196,6 +221,11 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 		texelt.css('height', max_height);
 	    }
 	}
+
+        /* titlepage becomes a set of divs.
+         * You can set the appropriate css properties through
+         * the listed classes.
+         */
 	else if(element.is('titlepage')) {
 	    var titleelt = jQuery('<div/>', {
 		class: 'titlepage'
@@ -221,6 +251,11 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    inst.text(element.children('inst').text());
 	    jQuery('<br>').appendTo(titleelt);
 	}
+
+        /* text becomes a div with a custom class that you can
+         * set in the XML. I am considering applying recursive
+         * parsing to this, to allow for internal anim elements.
+         */
 	else if(element.is('text')) {
 	    var styleclass = element.attr('class');
 	    var textelt = jQuery('<div/>', {
@@ -230,6 +265,11 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    textelt.text(element.text());
 	    retelt = textelt;
 	}
+
+        /* Content of code tags is stuffed into a pre element
+         * and then styled with the snippet plugin, according
+         * to the language set with the lang property.
+         */
 	else if(element.is('code')) {
 	    var lang = element.attr('lang');
 	    var source = element.attr('src');
@@ -250,7 +290,12 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    codeelt.snippet(lang, {style: "peachpuff", showNum: false});
 	    retelt = codeelt;
 	}
-	//Parse videos
+
+	/* Video tags are experimental. In theory, I think this should work,
+         * but last time I attempted to use this in Chromium, it was somewhat
+         * quirky.
+         * The idea is that we add an event that will cause the video to play.
+         */
 	else if(element.is('video')) {
 	    var source = element.attr('src');
 	    var slideid = slide.attr('id');
@@ -261,10 +306,15 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    var res = idmanager.apply_id(element, videoelt);
 	    var id = res[1];
 	    var existing_play = animations.stepActionsIndexes('playvideo', slideid, id);
-	    if (existing_play.length == 0)
+	    if (existing_play.length === 0)
 		animations.insert_event(slideid, [{'action': 'playvideo', 'id': id}], 1);
 	}
-	//Parse images
+
+	/* img tags are translated to, well, img tags...
+         * The content of the tag becomes the alt text in the HTML.
+         * Since javascript does not necessarily know the size of
+         * the image, we fetch this from a server-side python script.
+         */
 	else if(element.is('img')) {
 	    //eltcount += 1;
 	    var source = element.attr('src');
@@ -277,8 +327,8 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 			 dataType: "json",
 			 async: false,
 			 success: function(data) {
-			     width = data[0],
-			     height = data[1]
+			     width = data[0];
+			     height = data[1];
 			 }
 	    });
 	    var imgelt = jQuery('<img/>', {
@@ -290,6 +340,16 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    imgelt.css('width', width);
 	    idmanager.apply_id(element, imgelt);
 	}
+
+        /* Box elements are fairly versatile. You can put a border
+         * on them or set their background colour, and use them for
+         * framing/highlighting things.
+         * You can also embed elements in a box, and even use
+         * overflow="hidden" to cut off visibility of inner elements
+         * at the border.
+         * Sub-elements are simply parsed recursively and can of
+         * course be animated as well.
+         */
 	else if(element.is('box')) {
 	    var overflow = element.attr('overflow');
 	    var bgcolor = element.attr('bgcolor');
@@ -323,6 +383,13 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 		});
 
 	}
+
+        /* This was another video experiment, using an embedded
+         * VLC player to stream video instead of the video tag.
+         * This actually worked better than the video tag on the
+         * version of Chromium I was using, but it was still somewhat
+         * quirky.
+         */
 	else if(element.is('stream')) {
 	    var source = element.attr('src');
 	    var width = 800;
@@ -347,6 +414,9 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    retelt = streamelt;
 	    idmanager.apply_id(element, streamelt);
 	}
+
+        /* Python tutor integration.
+         */
 	else if(element.is('pytutor')) {
 	    var codewidth = 300;
 	    if (element.attr('codewidth')) {
@@ -363,32 +433,51 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    console.log('Visualizer id: ' + vis_id);
 	    jQuery.ajax({
 		url: 'pytutortrace',
+                //The backend will generate an execution trace for the given Python file.
 		data: {pyfile: pyfilename},
+                //This trace is returned in pytrace
 		success: function(pytrace) {
 		    console.log('Successfully got trace! Creating visualizer with id: ' + vis_id);
+                    //The trace is handed to the visualizer object
 		    var exvis = new ExecutionVisualizer(vis_id, pytrace,
 							{embeddedMode: true,
 							 codeDivWidth: codewidth});
+
+                    /* The visualizer object is stored in an array,
+                     * which can be accessed during event execution.
+                     */
 		    aux_objs[vis_id] = exvis;
+
+                    /* If the number of steps is undefined in the steps attribute,
+                     * we count the trace length to get the maximum number of steps.
+                     */
 		    if(steps === undefined) {
 			steps = exvis.curTrace.length;
 		    }
+
 		    var slideid = slide.attr('id');
 
+                    /* Get the indices of any step actions already
+                     * registered in the event list.
+                     */
 		    var existing_steps = animations.stepActionsIndexes('pystep', slideid, vis_id);
+                    //If there are too few steps
 		    if (existing_steps.length < steps) {
 			var event_index = 0;
-			//Add steps up to number from XML file
-			if (existing_steps.length == 0) {
+			//If there are no already registered step actions, start at the last event
+			if (existing_steps.length === 0) {
 			    event_index = animations.numEvents(slideid);
 			    console.log('Starting at event index: ' + event_index);
 			}
+                        //Otherwise, start adding more steps after the last step event
 			else {
 			    event_index = existing_steps[existing_steps.length-1][0];
 			    console.log('Adding steps: ' + existing_steps[existing_steps.length-1]);
 			}
+                        //Add the additional step events
 			animations.addStepEvents(slideid, (steps-existing_steps.length), [{'action': 'pystep', 'id': vis_id}], event_index);
 		    }
+                    //If there are too many steps
 		    else if (existing_steps.length > steps) {
 			//Cull steps down to number from XML file
 			var addnum = existing_steps.length - steps;
@@ -402,20 +491,27 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 		async: false
 	    });
 	}
+        //Ignore title element (read elsewhere, not part of the actual slide)
 	else if(element.is('title')) {}
+        //For anything that's uninterpreted, just add the contents as text.
 	else {
 	    htmlparent.append(document.createTextNode(element.text()));
 	}
 
-	if (!(retelt === false)) {
+        //If an HTML element was produced, add z-index, if found as an attribute
+	if (retelt !== false) {
 	    var z = element.attr('z-index');
 	    if (z !== undefined)
 		retelt.css('z-index', z);
 	    retelt.addClass('bleamerelt');
 	}
-	return retelt;
-    }
 
+        //Return the generated HTML element
+	return retelt;
+    };
+
+    /* Parse a slide
+     */
     this.parse_slide = function(slide, z, aux_objs, opaque, prepend) {
 	if(typeof(prepend)==='undefined') prepend = false;
 	if(typeof(opaque)==='undefined') opaque = true;
@@ -453,6 +549,10 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 
 	//animations.slidegc(slide); //Fix animation slots
 
+        /* Parse elements on the slide
+         * If inflow is "no" on an element, drop it as a root element of the slide
+         * If it's "yes", pack it in the auto layout element.
+         */
 	var parse_obj = this;
 	slide.children().each(
 	    function() {
@@ -473,8 +573,10 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	this.setEltsAbsolute(slelt);
 
 	return slelt;
-    }
+    };
 
+    /* Parse slide number slidenum
+     */
     this.parse_slidenum = function(slidenum, z, opaque, prepend) {
 	if(typeof(prepend)==='undefined') prepend = false;
 	if(typeof(opaque)==='undefined') opaque = true;
@@ -482,5 +584,5 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	var slelt = this.parse_slide($(slideelements[slidenum]), z, aux_objs, opaque, prepend);
 	animations.set_pauses(slelt.attr('id'));
 	return {'slide': slelt, 'aux_objs': aux_objs};
-    }
+    };
 }
