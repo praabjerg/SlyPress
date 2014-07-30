@@ -109,7 +109,7 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 		function() {
 		    //eltcount += 1;
 		    if($(this).is('item')) {
-			itelt = jQuery('<li/>', {
+			var itelt = jQuery('<li/>', {
 			    class: 'bullet bleamerelt'
 			}).appendTo(itemizelt);
 
@@ -422,7 +422,7 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    if (element.attr('codewidth')) {
 		codewidth = element.attr('codewidth');
 	    }
-	    tutorelt = jQuery('<div/>', {
+	    var tutorelt = jQuery('<div/>', {
 		class: 'pytutor'
 	    }).appendTo(htmlparent);
 	    retelt = tutorelt;
@@ -529,20 +529,20 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	    html_slides.prepend(slelt);
 	else
 	    html_slides.append(slelt);
-	new_id_applied = idmanager.apply_id(slide, slelt);
+	var new_id_applied = idmanager.apply_id(slide, slelt);
 	//New empty list for this slide's animations
 	if(new_id_applied[0]) {
 	    animations.newanims(new_id_applied[1]);
 	    console.log('New ID applied to slide: ' + new_id_applied);
 	}
 
-	autolayoutelt = jQuery('<div/>', {
+	var autolayoutelt = jQuery('<div/>', {
 	    class: 'autolayout'
 	}).appendTo(slelt);
 	autolayoutelt.css('z-index', 0);
 
 	//Add title to slide, if any
-	title = slide.children('title');
+	var title = slide.children('title');
 	if(title.length > 0) {
 	    slelt.attr('data-title', $(title[0]).text());
 	}
@@ -557,7 +557,7 @@ function SlideParser(idmanager, animations, xml_slides, html_slides) {
 	slide.children().each(
 	    function() {
 		if ($(this).attr('inflow') == 'no') {
-		    elt = parse_obj.parse_element($(this), slelt, aux_objs, slide);
+		    var elt = parse_obj.parse_element($(this), slelt, aux_objs, slide);
 		    //console.log('Noflow element has z-index: ' + elt.css('z-index'));
 		    if ((elt) && (elt.css('z-index') == 'auto'))
 			elt.css({'z-index': -10,
