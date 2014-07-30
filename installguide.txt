@@ -4,6 +4,7 @@ apt-get install python-selenium
 apt-get install chromium-chromedriver (or chrome-chromedriver?)
 apt-get install python-scipy
 apt-get install python-pygame
+apt-get install dvipng
 
 User instructions:
 1. Edit initial skeleton of presentation (source.xml)
