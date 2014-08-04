@@ -57,7 +57,7 @@ function Navigator(animations, allslides, slideparser, controller, browser, xml,
 		navigator.previous();
 	    }
             if (KEYMAP['singleshot'].indexOf(event.keyCode) != -1) {
-		browser.screenshot_slide('imgversion/imgslide', slideindex, animator.get_eventindex());
+		browser.screenshot_slide('screenshots/imgslide', slideindex, animator.get_eventindex());
 	    }
 /*	    if (event.keyCode == '118') {
 		browser.screenshot_slide_scrot('imgversion/imgslide', slideindex, animator.get_eventindex(), true);

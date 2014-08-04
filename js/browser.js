@@ -16,13 +16,22 @@
  */
 
 //var dimensions = [1280, 800];
-var dimensions = [1024, 768]
+var dimensions = [1024, 768];
 
-function padLeft(nr, n, str){
-    return Array(n-String(nr).length+1).join(str||'0')+nr;
+/* Pad nr to size n with zeroes.
+ * Used for writing out slide/event indexes for single screenshot filenames.
+ */
+function padLeft(nr, n){
+    "use strict";
+    return new Array(n-String(nr).length+1).join('0')+nr;
 }
 
+/* Class for tracking mouse position continuously.
+ * Used in the EventEditor class for tracking the mouse
+ * when moving elements around and adjusting their properties.
+ */
 function Mouse() {
+    "use strict";
     this.x = 0;
     this.y = 0;
 
@@ -32,17 +41,29 @@ function Mouse() {
 	    mouse.x = event.pageX;
 	    mouse.y = event.pageY;
 	});
-    }
+    };
 }
 
+/* Class representing browser functionality.
+ * Mostly, this is concerned with taking screenshots from the interface.
+ * We make calls to the backend Python scripts, which will then ask
+ * Selenium WebDriver to take screenshots of the presentation.
+ * This is used for generating thumbnails of the slides, but can
+ * also be useful for creating a static version of the presentation.
+ */
 function Browser() {
-    slidesize = dimensions;
+    "use strict";
+    var slidesize = dimensions;
     this.test_func = function() {
 	console.log('Done did one screenshot!');
-    }
+    };
 
+    /* Screenshot area within browser. nw_arg and se_arg are arrays
+     * with two elements, indicating coordinates of the nw corner and
+     * the se corner.
+     */
     this.screenshot_area = function(filename_arg, nw_arg, se_arg) {
-	browser = this;
+	var browser = this;
 	jQuery.ajax({type: "POST",
 		     url: "save_screenshot",
 		     data: {filename: filename_arg,
@@ -51,19 +72,24 @@ function Browser() {
 		     dataType: "json",
 		     async: true
 		    });
-    }
+    };
 
+    /* Resize the fullscreen shots to actual thumbnail size (200x267)
+     */
     this.resize_thumbnails = function() {
 	jQuery.ajax({type: "POST",
 		     url: "resize_thumbnails"
 		    });
-    }
+    };
 
+    /* Screenshot the last event of each slide, and execute some continuation function.
+     * This is used to generate images for both the slideswitcher and for the event editor.
+     */
     this.shoot_slides = function(navigator, file_prefix, index, up_to, continuation) {
-	browser = this;
+	var browser = this;
 	navigator.slide_goto(index);
 	navigator.events_skip_to_end();
-	filename_arg = file_prefix + "_" + index + ".png";
+	var filename_arg = file_prefix + "_" + index + ".png";
 	jQuery.ajax({type: "POST",
 		     url: "save_screenshot",
 		     data: {filename: filename_arg,
@@ -80,12 +106,15 @@ function Browser() {
                          }
 		     }
 		    });
-    }
+    };
 
+    /* Screenshot one slide, store in screenshots/ with the name
+     * imgslide<slideindex><eventindex>.png
+     */
     this.screenshot_slide = function(filename, slide, eventindex) {
 	var postfixed = filename + padLeft(slide, 3) + padLeft(eventindex, 3) + '.png';
 	this.screenshot_area(postfixed, [0, 0], [slidesize[0], slidesize[1]]);
-    }
+    };
 
     this.screenshot_slide_scrot = function(filename, slide, eventindex, left) {
 	var postfixed = filename + padLeft(slide, 3) + padLeft(eventindex, 3) + '.png';
@@ -97,13 +126,16 @@ function Browser() {
 		     dataType: "json",
 		     async: true
 		    });
-    }
+    };
 
+    /* Call shoot_slides with the resize_thumbnails function to screenshot the
+     * the last event of each slide, and then resize them for thumbnails.
+     */
     this.shoot_thumbnails = function(navigator) {
 	var numslides = navigator.get_numslides();
         var browser = this;
 	this.shoot_slides(navigator, 'thumb/slide', 0, numslides-1,
-                          function() {browser.resize_thumbnails()});
+                          function() {browser.resize_thumbnails();});
 	//this.resize_thumbnails();
-    }
+    };
 }
