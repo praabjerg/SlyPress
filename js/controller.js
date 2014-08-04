@@ -15,13 +15,16 @@
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* The slideswitcher implementation.
+ */
 function SlideSwitcher(document, navigator) {
-    var navigator = navigator;
+    "use strict";
     var numslides = 0;
     var thumbarray = new Array(7);
     var slideindex = 0;
-    var switchelt = undefined;
-    var document = document;
+    var switchelt;
+
+    //Transforms for each of the 7 positions in the slideswitcher.
     var transforms = [
 	{scale: 0.2, translateX: '-2100px', translateY: '-1500px', rotateY: '60deg', 'opacity': 0},
 	{scale: 0.3, translateX: '-1200px', translateY: '-700px', rotateY: '60deg', 'opacity': 1},
@@ -41,6 +44,8 @@ function SlideSwitcher(document, navigator) {
 	{'z-index': -3}
     ];
 
+    /* Create new Slide Switcher image element for slide at index.
+     */
     var newImgElt = function(index) {
 	if((index >= 0) && (index < numslides)) {
 	    var imgelt = jQuery('<img/>', {
@@ -52,13 +57,16 @@ function SlideSwitcher(document, navigator) {
 	}
 	else
 	    return false;
-    }
+    };
 
+    /* Set up slide switcher
+     */
     this.setSwitchToSlideNavigation = function(sindex, nslides) {
 	numslides = nslides;
 	slideindex = sindex;
 	$(document).unbind('keydown');
 	var boxelt = $("#slidebox");
+        //SlideSwitcher overlay
 	switchelt = jQuery('<div/>', {
 	    id: 'slideswitcher'
 	}).prependTo(boxelt);
@@ -78,14 +86,15 @@ function SlideSwitcher(document, navigator) {
 	    //var insert_index = slideindex-
 	});
 	var slideswitcher = this;
+        //Set controls
 	$(document).keydown(function(event) {
-            if (KEYMAP['next'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.next.indexOf(event.keyCode) != -1) {
 		slideswitcher.advance();
 	    }
-            if (KEYMAP['prev'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.prev.indexOf(event.keyCode) != -1) {
 		slideswitcher.previous();
 	    }
-            if (KEYMAP['toggleswitcher'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.toggleswitcher.indexOf(event.keyCode) != -1) {
 		event.preventDefault();
 		slideswitcher.destroySlideSwitcher();
 	    }
@@ -93,15 +102,22 @@ function SlideSwitcher(document, navigator) {
 		slideswitcher.destroySlideSwitcher();
 	    }*/
 	});
+        //Make switcher visible
 	switchelt.animate({'opacity': 1}, 500);
-    }
+    };
 
+    /* Sets new z-indexes during the animation.
+     * Called half-way into the animation to set the new layering
+     * at the most visually appropriate time.
+     */
     var setZIndex = function(index) {
 	if(thumbarray[index])
 	    thumbarray[index].css(zindexes[index]);
-    }
+    };
 
-    this.animateNext = function() {
+    /* Animate thumbnail elements of slideswitcher to new positions in thumbarray
+     */
+    this.animateSwitch = function() {
 	$.each(thumbarray, function(index) {
 	    var elt = thumbarray[index];
 	    if(elt) {
@@ -115,17 +131,19 @@ function SlideSwitcher(document, navigator) {
 							 }});
 	    }
 	});
-    }
+    };
 
+    /* Advance elements in thumbarray and animate
+     */
     this.advance = function() {
 	if(slideindex < numslides-1) {
 	    $.each(thumbarray, function(index) {
 		var thisslide = index-3+slideindex;
 		var curelt = thumbarray[index];
-		var imgelt = undefined;
+		var imgelt;
 		console.log('Thumb array ' + index + ': ' + thumbarray[index]);
-		if(index == 0){
-		    if(!(curelt === false)){
+		if(index === 0){
+		    if(curelt !== false){
 			curelt.remove();
 		    }
 		    imgelt = thumbarray[1];
@@ -133,7 +151,7 @@ function SlideSwitcher(document, navigator) {
 		else {
 		    if(index == 6) {
 			imgelt = newImgElt(thisslide+1);
-			if (!(imgelt === false))
+			if (imgelt !== false)
 			    imgelt.appendTo(switchelt);
 		    }
 		    else
@@ -141,28 +159,30 @@ function SlideSwitcher(document, navigator) {
 		}
 		thumbarray[index] = imgelt;
 	    });
-	    this.animateNext();
+	    this.animateSwitch();
 	    slideindex += 1;
 	}
-    }
+    };
 
+    /* Reverse elements in thumbarray and animate
+     */
     this.previous = function() {
 	if(slideindex > 0) {
 	    for (var index = 6; index >= 0; index--) {
 		var thisslide = index-3+slideindex;
 		var curelt = thumbarray[index];
-		var imgelt = undefined;
+		var imgelt;
 		console.log('Going back! Thumb array ' + index + ': ' + thumbarray[index]);
 		if(index == 6){
 		    console.log('Index is 6');
-		    if(!(curelt === false))
+		    if(curelt !== false)
 			curelt.remove();
 		    imgelt = thumbarray[5];
 		}
 		else {
-		    if(index == 0) {
+		    if(index === 0) {
 			imgelt = newImgElt(thisslide-1);
-			if (!(imgelt === false))
+			if (imgelt !== false)
 			    imgelt.prependTo(switchelt);
 		    }
 		    else
@@ -170,13 +190,15 @@ function SlideSwitcher(document, navigator) {
 		}
 		thumbarray[index] = imgelt;
 	    }
-	    this.animateNext();
+	    this.animateSwitch();
 	    console.log('Slideindex before: ' + slideindex);
 	    slideindex -= 1;
 	    console.log('Slideindex after: ' + slideindex);
 	}
-    }
+    };
 
+    /* Go to slide set by slideswitcher, and then destroy the slideswitcher.
+     */
     this.destroySlideSwitcher = function() {
 	navigator.slide_goto(slideindex);
 	var oldswitchelt = switchelt;
@@ -186,13 +208,17 @@ function SlideSwitcher(document, navigator) {
 	}});
 	$(document).unbind('keydown');
 	navigator.setPresentNavigation();
-    }
+    };
 
 }
 
+/* Class for controlling certain generic aspects of the slide viewer.
+ * So far, the visibility of footer and header, number of slides, and the title.
+ * Future possibilities: Colours, sidebars, etc.
+ */
 function GeneralController(xmlslides) {
+    "use strict";
     //var DOM = DOM;
-    var xmlslides = xmlslides;
     var footerheight = 30;
     var titleheight = 80;
     var slideheight = dimensions[1];
@@ -202,32 +228,32 @@ function GeneralController(xmlslides) {
 	    $('#footerbox').stop(true).css({'top': slideheight, 'opacity': 0});
 	else
 	    $('#footerbox').stop(true).delay(1000).animate({'top': slideheight, 'opacity': 0}, 1000);
-    }
+    };
 
     this.showfooter = function(instant) {
 	if(instant)
 	    $('#footerbox').stop(true).css({'top': (slideheight-footerheight), 'opacity': 1});
 	else
 	    $('#footerbox').stop(true).animate({'top': (slideheight-footerheight), 'opacity': 1}, 1000);
-    }
+    };
 
     this.hidetitle = function(instant) {
 	if(instant)
 	    $('#titlebox').stop(true).css({'top': (-titleheight), 'opacity': 0});
 	else
 	    $('#titlebox').stop(true).delay(1000).animate({'top': (-titleheight), 'opacity': 0}, 1000);
-    }
+    };
 
     this.showtitle = function(instant) {
 	if(instant)
 	    $('#titlebox').stop(true).css({'top': 0, 'opacity': 1});
 	else
 	    $('#titlebox').stop(true).animate({'top': 0, 'opacity': 1}, 1000);
-    }
+    };
 
     this.setslidenum = function(slideindex, numslides) {
 	$('#slidenum').text((slideindex+1) + '/' + numslides);
-    }
+    };
 
     this.settitle = function(slide, instantly) {
 	if(typeof(instantly)==='undefined') instantly = false;
@@ -239,7 +265,7 @@ function GeneralController(xmlslides) {
 	    titlespan.css('opacity', 1);
 	}
 	else {
-	    newspan = jQuery('<span/>', {
+	    var newspan = jQuery('<span/>', {
 		class: 'title'
 	    }).prependTo(titlebox);
 	    newspan.text(newtitle);
@@ -249,5 +275,5 @@ function GeneralController(xmlslides) {
 					       }});
 	    newspan.animate({'opacity': 1}, {'duration': 500});
 	}
-    }
+    };
 }
