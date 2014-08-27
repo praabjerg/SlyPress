@@ -817,7 +817,7 @@ function SlideSelector(numslides, navigator, animator, xml_slides, body) {
 
     this.selectSlide = function() {
 	animator.commitEvents();
-	navigator.slide_goto(selectorindex);
+	navigator.slide_goto(selectorindex, false);
 	this.setIndicatorPos();
     };
 

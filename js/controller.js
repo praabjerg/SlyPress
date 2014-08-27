@@ -200,7 +200,7 @@ function SlideSwitcher(document, navigator) {
     /* Go to slide set by slideswitcher, and then destroy the slideswitcher.
      */
     this.destroySlideSwitcher = function() {
-	navigator.slide_goto(slideindex);
+	navigator.slide_goto(slideindex, false);
 	var oldswitchelt = switchelt;
 	switchelt = undefined;
 	oldswitchelt.animate({'opacity': 0}, {'duration': 500, 'complete': function() {

@@ -87,8 +87,8 @@ function Browser() {
      */
     this.shoot_slides = function(navigator, file_prefix, index, up_to, continuation) {
 	var browser = this;
-	navigator.slide_goto(index);
-	navigator.events_skip_to_end();
+	//Go to end of slide
+	navigator.slide_goto(index, true);
 	var filename_arg = file_prefix + "_" + index + ".png";
 	jQuery.ajax({type: "POST",
 		     url: "save_screenshot",
@@ -101,7 +101,7 @@ function Browser() {
 			 if(index < up_to)
 			     browser.shoot_slides(navigator, file_prefix, index+1, up_to, continuation);
 			 else {
-			     navigator.slide_goto(0);
+			     navigator.slide_goto(0, false);
                              continuation();
                          }
 		     }
