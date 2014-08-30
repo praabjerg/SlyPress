@@ -16,30 +16,28 @@
  */
 
 function degToInt(rotstring) {
-    if (rotstring != 0)
+    if (rotstring !== 0)
 	return parseInt(rotstring.substring(0, rotstring.length-3));
     else
 	return rotstring;
 }
 
 function pxToInt(pxstring) {
-    if (pxstring != 0)
+    if (pxstring !== 0)
 	return parseInt(pxstring.substring(0, pxstring.length-2));
     else
 	return pxstring;
 }
 
 function ActionSelector(animator, mouse, body) {
-    var animator = animator;
-    var elementselector = undefined;
-    var body = body;
-    var actionselector = undefined;
+    var elementselector;
+    var actionselector;
     var top = 868;
 
     this.setElementSelector = function(eltsel) {
 	//Aah! Cross-linking!
 	elementselector = eltsel;
-    }
+    };
 
     this.addActionRegulator = function(action, index, actionlist) {
 	var event = event;
@@ -124,7 +122,7 @@ function ActionSelector(animator, mouse, body) {
 	});
 
 	console.log('Regulator height: ' + height_css);
-    }
+    };
 
     this.delActionRegulator = function(actionname, id) {
 	actionselector.children().each(function () {
@@ -132,13 +130,13 @@ function ActionSelector(animator, mouse, body) {
 		$(this).remove();
 	    }
 	});
-    }
+    };
 
     this.clearAllActionRegulators = function() {
 	actionselector.children().each(function () {
 	    $(this).remove();
 	});
-    }
+    };
 
     this.updateActionSelection = function() {
 	var actionlist = animator.getActionObjsFromLast();
@@ -153,7 +151,7 @@ function ActionSelector(animator, mouse, body) {
 		count += 1;
 	    }
 	});
-    }
+    };
 
     this.setActionSelection = function() {
 	actionselector = jQuery('<div/>', {
@@ -161,7 +159,7 @@ function ActionSelector(animator, mouse, body) {
 	}).appendTo(body);
 	this.updateActionSelection();
 	actionselector.animate({'opacity': 1}, 500);
-    }
+    };
 
     this.unsetActionSelection = function() {
 	oldactionselector = actionselector;
@@ -170,23 +168,19 @@ function ActionSelector(animator, mouse, body) {
 						   'always': function() {
 						       oldactionselector.remove();
 						   }});
-    }
+    };
 
 }
 
 function ElementSelector(animator, actionselector, mouse, eventeditor) {
-    var mouse = mouse;
-    var actionselector = actionselector;
     //Aaah! Cross-linking!
     actionselector.setElementSelector(this);
-    var eventeditor = eventeditor;
-    var animator = animator;
-    var highlightelts = undefined;
-    var origcss = undefined;
-    var bleamerelts = undefined;
-    var auxelts = undefined;
-    var auxlist = undefined;
-    var currentslide = undefined;
+    var highlightelts;
+    var origcss;
+    var bleamerelts;
+    var auxelts;
+    var auxlist;
+    var currentslide;
     var elementselector = this;
 
     var getid = function(elt) {
@@ -197,29 +191,29 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	else
 	    console.log('Get id: ' + elt.attr('id'));
 	return elt.attr('id');
-    }
+    };
 
     this.highlightframe = function(id) {
 	highlightelts[id].addClass('highlightedframe');
 	auxelts[id].addClass('highlightedframe');
-    }
+    };
 
     this.unhighlightframe = function(id) {
 	highlightelts[id].removeClass('highlightedframe');
 	auxelts[id].removeClass('highlightedframe');
-    }
+    };
 
     var highlight = function(event) {
 	event.stopPropagation();
 	var eltid = getid($(this));
 	elementselector.highlightframe(eltid);
 	console.log('Enter element: ' + eltid);
-    }
+    };
 
     var unhighlightelt = function(elt) {
 	var eltid = elt.attr('id');
 	elementselector.unhighlightframe(eltid);
-    }
+    };
 
     var unhighlight = function(event) {
 	event.stopPropagation();
@@ -227,7 +221,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	var elt = currentslide.find('#' + eltid);
 	console.log('Leave element: ' + eltid);
 	unhighlightelt(elt);
-    }
+    };
 
     var select = function(event) {
 	event.stopPropagation();
@@ -246,7 +240,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		auxelts[eltid].addClass('selectedframe');
 	    }
 	}
-    }
+    };
 
     var setSelectorCSS = function(html_elt, sel_elt) {
 	var sel_parent = sel_elt.parent();
@@ -285,7 +279,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	    'scaleY': html_elt.css('scaleY'),
 	    'z-index': 0
 	});
-    }
+    };
 
     this.setSelectorsCSS = function() {
 	bleamerelts.each(function() {
@@ -293,10 +287,10 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	    var selelt = highlightelts[eltid];
 	    setSelectorCSS($(this), selelt);
 	});
-    }
+    };
 
     this.makeSelector = function(html_elt, slide, selparent) {
-	var selelt = undefined;
+	var selelt;
 	if (html_elt.is('.bleamerelt')) {
 	    selelt = jQuery('<div/>', {
 		class: 'selectframe'
@@ -325,21 +319,22 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	html_elt.children().each(function() {
 	    elementselector.makeSelector($(this), slide, selelt);
 	});
-    }
+    };
 
     this.setAuxSelect = function() {
-    }
+    };
 
     this.setMouseSelect = function() {
 	bleamerelts = currentslide.find('.bleamerelt');
 
 	$.each(auxelts, function(i, auxelt) {$(auxelt).mouseover(highlight);
 					     $(auxelt).mouseout(unhighlight);
-					     $(auxelt).mousedown(select)});
+					     $(auxelt).mousedown(select);
+                                            });
 	bleamerelts.mouseover(highlight);
 	bleamerelts.mouseout(unhighlight);
 	bleamerelts.mousedown(select);
-    }
+    };
 
     this.setHoverSelection = function(slide) {
 	currentslide = slide;
@@ -363,7 +358,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	/* Create element-independent highlight, unhighlight and select functions
 	 * These are applied also to the list of elements created on the right of the slide */
 	this.setMouseSelect();
-    }
+    };
 
     this.startManipulation = function(mantype) {
 	var mouseorigX = mouse.x;
@@ -386,7 +381,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var oldval = degToInt(elt.css('rotate'));
 		console.log('Old rotation: ' + oldval);
 		oldvals[eltid] = oldval;
-	    }
+	    };
 	    movefunc = function(event, elt) {
 		var eltid = elt.attr('id');
 		//console.log('Element: ' + eltid);
@@ -394,7 +389,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var newrot = (oldvals[eltid]+(event.pageX-mouseorigX)) + 'deg';
 		elt.css({'rotate': newrot});
 		highlighters[eltid].css({'rotate': newrot});
-	    }
+	    };
 	    stopfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var actionobj = animator.getActionObjFromLast(eltid, mantype);
@@ -411,12 +406,12 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		    actionobj.deg = elt.css('rotate');
 		    console.log('Got action object: ' + actionobj);
 		}
-	    }
+	    };
 	    cancfunc = function(elt) {
 		var eltid = elt.attr('id');
 		elt.css({'rotate': (oldvals[eltid] + 'deg')});
 		highlighters[eltid].css({'rotate': (oldvals[eltid] + 'deg')});
-	    }
+	    };
 	}
 	if(mantype == 'rotateY') {
 	    readfunc = function(elt) {
@@ -425,7 +420,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var oldval = degToInt(elt.css('rotateY'));
 		console.log('Old rotation: ' + oldval);
 		oldvals[eltid] = oldval;
-	    }
+	    };
 	    movefunc = function(event, elt) {
 		var eltid = elt.attr('id');
 		//console.log('Element: ' + eltid);
@@ -433,7 +428,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var newrot = (oldvals[eltid]+(event.pageX-mouseorigX)) + 'deg';
 		elt.css({'rotateY': newrot});
 		highlighters[eltid].css({'rotateY': newrot});
-	    }
+	    };
 	    stopfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var actionobj = animator.getActionObjFromLast(eltid, mantype);
@@ -450,12 +445,12 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		    actionobj.deg = elt.css('rotateY');
 		    console.log('Got action object: ' + actionobj);
 		}
-	    }
+	    };
 	    cancfunc = function(elt) {
 		var eltid = elt.attr('id');
 		elt.css({'rotateY': (oldvals[eltid] + 'deg')});
 		highlighters[eltid].css({'rotateY': (oldvals[eltid] + 'deg')});
-	    }
+	    };
 	}
 	if(mantype == 'rotateX') {
 	    readfunc = function(elt) {
@@ -464,7 +459,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var oldval = degToInt(elt.css('rotateX'));
 		console.log('Old rotation: ' + oldval);
 		oldvals[eltid] = oldval;
-	    }
+	    };
 	    movefunc = function(event, elt) {
 		var eltid = elt.attr('id');
 		//console.log('Element: ' + eltid);
@@ -472,7 +467,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var newrot = (oldvals[eltid]+(event.pageY-mouseorigY)) + 'deg';
 		elt.css({'rotateX': newrot});
 		highlighters[eltid].css({'rotateX': newrot});
-	    }
+	    };
 	    stopfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var actionobj = animator.getActionObjFromLast(eltid, mantype);
@@ -489,12 +484,12 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		    actionobj.deg = elt.css('rotateX');
 		    console.log('Got action object: ' + actionobj);
 		}
-	    }
+	    };
 	    cancfunc = function(elt) {
 		var eltid = elt.attr('id');
 		elt.css({'rotateX': (oldvals[eltid] + 'deg')});
 		highlighters[eltid].css({'rotateX': (oldvals[eltid] + 'deg')});
-	    }
+	    };
 	}
 	if(mantype == 'move') {
 	    readfunc = function(elt) {
@@ -503,7 +498,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var oldval = [pxToInt(elt.css('left')), pxToInt(elt.css('top'))];
 		console.log('Old position: ' + oldval);
 		oldvals[eltid] = oldval;
-	    }
+	    };
 	    movefunc = function(event, elt) {
 		var eltid = elt.attr('id');
 		//console.log('Element: ' + eltid);
@@ -514,7 +509,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		console.log('Moving, left: ' + newleft + ', top: ' + newtop);
 		elt.css({'left': newleft, 'top': newtop});
 		highlighters[eltid].css({'left': newleft, 'top': newtop});
-	    }
+	    };
 	    stopfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var actionobj = animator.getActionObjFromLast(eltid, mantype);
@@ -534,7 +529,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		    actionobj.top = elt.css('top');
 		    console.log('Got action object: ' + actionobj);
 		}
-	    }
+	    };
 	    cancfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var oldleft = oldvals[eltid][0];
@@ -543,7 +538,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 			 'top': oldtop});
 		highlighters[eltid].css({'left': oldleft,
 					 'top': oldtop});
-	    }
+	    };
 	}
 	if(mantype == 'sizew') {
 	    readfunc = function(elt) {
@@ -552,7 +547,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var oldval = pxToInt(elt.css('width'));
 		console.log('Old widthval: ' + oldval);
 		oldvals[eltid] = oldval;
-	    }
+	    };
 	    movefunc = function(event, elt) {
 		var eltid = elt.attr('id');
 		//console.log('Element: ' + eltid);
@@ -561,7 +556,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		console.log('Widthing: ' + newwidth);
 		elt.css({'width': newwidth});
 		highlighters[eltid].css({'width': newwidth+8});
-	    }
+	    };
 	    stopfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var actionobj = animator.getActionObjFromLast(eltid, mantype);
@@ -578,13 +573,13 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		    actionobj.width = elt.css('width');
 		    console.log('Got action object: ' + actionobj);
 		}
-	    }
+	    };
 	    cancfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var oldwidth = oldvals[eltid];
 		elt.css({'width': oldwidth});
 		highlighters[eltid].css({'width': oldwidth});
-	    }
+	    };
 	}
 	if(mantype == 'sizeh') {
 	    readfunc = function(elt) {
@@ -593,7 +588,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var oldval = pxToInt(elt.css('height'));
 		console.log('Old heightval: ' + oldval);
 		oldvals[eltid] = oldval;
-	    }
+	    };
 	    movefunc = function(event, elt) {
 		var eltid = elt.attr('id');
 		//console.log('Element: ' + eltid);
@@ -602,7 +597,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		console.log('Heighting: ' + newheight);
 		elt.css({'height': newheight});
 		highlighters[eltid].css({'height': newheight+8});
-	    }
+	    };
 	    stopfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var actionobj = animator.getActionObjFromLast(eltid, mantype);
@@ -619,13 +614,13 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		    actionobj.height = elt.css('height');
 		    console.log('Got action object: ' + actionobj);
 		}
-	    }
+	    };
 	    cancfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var oldheight = oldvals[eltid];
 		elt.css({'height': oldheight});
 		highlighters[eltid].css({'height': oldheight});
-	    }
+	    };
 	}
 	if(mantype == 'fade') {
 	    readfunc = function(elt) {
@@ -633,7 +628,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var oldval = elt.css('opacity');
 		console.log('Old fadeval: ' + oldval);
 		oldvals[eltid] = oldval;
-	    }
+	    };
 	    movefunc = function(event, elt) {
 		var eltid = elt.attr('id');
 		//console.log('Element: ' + eltid);
@@ -641,7 +636,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var newfade = (parseFloat(oldfade)-parseFloat((event.pageY-mouseorigY)/100));
 		console.log('Fading: ' + newfade);
 		elt.css({'opacity': newfade});
-	    }
+	    };
 	    stopfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var actionobj = animator.getActionObjFromLast(eltid, mantype);
@@ -658,12 +653,12 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		    actionobj.opacity = elt.css('opacity');
 		    console.log('Got action object: ' + actionobj);
 		}
-	    }
+	    };
 	    cancfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var oldfade = oldvals[eltid];
 		elt.css({'opacity': oldfade});
-	    }
+	    };
 	}
 	if(mantype == 'scale') {
 	    readfunc = function(elt) {
@@ -672,7 +667,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		var oldval = [elt.css('scaleX'), elt.css('scaleY')];
 		console.log('Old position: ' + oldval);
 		oldvals[eltid] = oldval;
-	    }
+	    };
 	    movefunc = function(event, elt) {
 		var eltid = elt.attr('id');
 		//console.log('Element: ' + eltid);
@@ -683,7 +678,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		console.log('Moving, left: ' + newleft + ', top: ' + newtop);
 		elt.css({'scaleX': newleft, 'scaleY': newtop});
 		highlighters[eltid].css({'scaleX': newleft, 'scaleY': newtop});
-	    }
+	    };
 	    stopfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var actionobj = animator.getActionObjFromLast(eltid, mantype);
@@ -703,7 +698,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		    actionobj.scaleY = elt.css('scaleY');
 		    console.log('Got action object: ' + actionobj);
 		}
-	    }
+	    };
 	    cancfunc = function(elt) {
 		var eltid = elt.attr('id');
 		var oldleft = oldvals[eltid][0];
@@ -712,7 +707,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 			 'scaleY': oldtop});
 		highlighters[eltid].css({'scaleX': oldleft,
 					 'scaleY': oldtop});
-	    }
+	    };
 	}
 
 
@@ -748,7 +743,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	    eventeditor.setEditNavKeys();
 	});
 	$(document).keydown(function(event) {
-            if (KEYMAP['canceledit'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.canceledit.indexOf(event.keyCode) != -1) {
 		selected.each(function() {
 		    cancfunc($(this));
 		});
@@ -762,7 +757,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 		eventeditor.setEditNavKeys();
 	    }
 	});
-    }
+    };
 
     /*this.startManipulation = function() {
       }*/
@@ -772,7 +767,7 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	bleamerelts.keydown(function(event) {
 	    //'r' - rotate
 	});
-    }
+    };
 
     this.unsetHoverSelection = function(slide) {
 	var bleamerelts = slide.find('.bleamerelt');
@@ -784,20 +779,18 @@ function ElementSelector(animator, actionselector, mouse, eventeditor) {
 	bleamerelts.unbind('mouseover');
 	bleamerelts.unbind('mouseout');
 	bleamerelts.unbind('mousedown');
-    }
+    };
 }
 
 function SlideSelector(numslides, navigator, animator, xml_slides, body) {
-    var navigator = navigator;
     var selectorindex = 0;
-    var numslides = numslides;
 
     var thumbheight = 100;
     var thumbwidth = Math.round((dimensions[0]/dimensions[1])*thumbheight);
 
-    var listdiv = undefined;
-    var indicator = undefined;
-    var selector = undefined;
+    var listdiv;
+    var indicator;
+    var selector;
 
     this.selectorLeft = function() {
 	if(selectorindex > 0) {
@@ -885,16 +878,12 @@ function SlideSelector(numslides, navigator, animator, xml_slides, body) {
 }
 
 function EventSelector(animations, animator, navigator, elementselector, actionselector, body) {
-    var animations = animations;
-    var animator = animator;
-    var actionselector = actionselector;
-    var eventul = undefined;
+    var eventul;
 
     var eventheight = 30;
-    var eventselector = undefined;
+    var eventselector;
     //(Give single value between 0 and 1535, representing colour on the rainbow)
     this.colourGen = function(col) {
-	var col = col;
 	var step = 0;
 	var R = 0;
 	var G = 0;
@@ -908,7 +897,7 @@ function EventSelector(animations, animator, navigator, elementselector, actions
 	    }
 	}
 
-	if(step == 0) {
+	if(step === 0) {
 	    R = 255;
 	    G = 0;
 	    B = col;
@@ -960,7 +949,7 @@ function EventSelector(animations, animator, navigator, elementselector, actions
 	    }).appendTo(eventul);
 	    eventelt.css('height', eventheight);
 	    rgb = editor.colourGen(colour);
-	    rgbstring = 'rgb(' + rgb['R'] + ', ' + rgb['G'] + ', ' + rgb['B'] + ')';
+	    rgbstring = 'rgb(' + rgb.R + ', ' + rgb.G + ', ' + rgb.B + ')';
 	    console.log('Rainbow nr.: ' + colour);
 	    console.log('RGB string: ' + rgbstring);
 	    eventelt.css('background-color', rgbstring);
@@ -995,7 +984,7 @@ function EventSelector(animations, animator, navigator, elementselector, actions
 		}).insertAfter($(this));
 		eventelt.css('height', eventheight);
 		rgb = editor.colourGen(Math.floor(Math.random()*1536));
-		rgbstring = 'rgb(' + rgb['R'] + ', ' + rgb['G'] + ', ' + rgb['B'] + ')';
+		rgbstring = 'rgb(' + rgb.R + ', ' + rgb.G + ', ' + rgb.B + ')';
 		eventelt.css('background-color', rgbstring);
 	    }
 	    count += 1;
@@ -1050,7 +1039,7 @@ function EventSelector(animations, animator, navigator, elementselector, actions
 	    movedelt.insertAfter(eventul.children().eq(eventindex-1));
 	    this.eventSelectorAnimate();
 	}
-    }
+    };
 
     this.moveEventUp = function() {
 	var eventindex = animator.get_eventindex();
@@ -1061,7 +1050,7 @@ function EventSelector(animations, animator, navigator, elementselector, actions
 	    movedelt.insertBefore(eventul.children().eq(eventindex-2));
 	    this.eventSelectorAnimate();
 	}
-    }
+    };
 
     this.clearEvent = function() {
 	var deleted_jumped = animator.clearLastEvent();
@@ -1077,18 +1066,10 @@ function EventSelector(animations, animator, navigator, elementselector, actions
 	    this.eventSelectorAnimate();
 	}
 	actionselector.updateActionSelection();
-    }
+    };
 }
 
 function EventEditor(slidexml, document, numslides, xml_slides, slideparser, animations, animator, navigator) {
-    var animator = animator;
-    var numslides = numslides;
-    var animations = animations;
-    var navigator = navigator;
-    var slidexml = slidexml;
-
-    var document = document;
-
     var editpos = [50, 100];
 
     var body = $('body');
@@ -1107,29 +1088,29 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 	    event.preventDefault();
 
 	    //Tab
-            if (KEYMAP['toggleedit'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.toggleedit.indexOf(event.keyCode) != -1) {
 		event.preventDefault();
 		event.stopPropagation();
 		eventeditor.unsetEditNavigation();
 	    }
 	    //Backspace
 	    //Maltron: 8
-            if (KEYMAP['clearevent'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.clearevent.indexOf(event.keyCode) != -1) {
 		if (event.shiftKey)
 		    eventselector.clearEvent();
 		/*else
 		    actionselector.deleteSelectedAction();*/
 	    }
 	    //Maltron: 78
-            if (KEYMAP['slideleft'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.slideleft.indexOf(event.keyCode) != -1) {
 		slideselector.selectorLeft();
 	    }
 	    //Maltron: 83
-            if (KEYMAP['slideright'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.slideright.indexOf(event.keyCode) != -1) {
 		slideselector.selectorRight();
 	    }
 	    //Maltron: 73
-            if (KEYMAP['eventdown'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.eventdown.indexOf(event.keyCode) != -1) {
 		if (event.shiftKey)
 		    eventselector.addEventBeforeThis();
 		else if (event.altKey)
@@ -1138,14 +1119,14 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		    eventselector.eventSelectorDown();
 	    }
 	    //Maltron: 89
-            if (KEYMAP['eventup'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.eventup.indexOf(event.keyCode) != -1) {
 		if (event.altKey)
 		    eventselector.moveEventUp();
 		else
 		    eventselector.eventSelectorUp();
 	    }
 	    // Enter - select new slide
-            if (KEYMAP['selectslide'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.selectslide.indexOf(event.keyCode) != -1) {
 		slideselector.selectSlide();
 		eventselector.updateEventList();
 		elementselector.setHoverSelection(navigator.getCurrentSlide());
@@ -1153,7 +1134,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 	});
 	$(document).keydown(function () {
 	    // 'r' - rotate
-            if (KEYMAP['rotate'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.rotate.indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('rotateZ');
 		$(document).keydown(function(event) {
@@ -1165,7 +1146,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // 'g' - grab
-            if (KEYMAP['grab'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.grab.indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('move');
 		$(document).keydown(function(event) {
@@ -1177,7 +1158,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // 'f' - fade
-            if (KEYMAP['fade'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.fade.indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('fade');
 		$(document).keydown(function(event) {
@@ -1190,7 +1171,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 	    }
 	    // 'c' - scale
 	    // Maltron: 67
-            if (KEYMAP['scale'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.scale.indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('scale');
 		$(document).keydown(function(event) {
@@ -1202,7 +1183,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // Maltron: 76
-            if (KEYMAP['rotateY'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.rotateY.indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('rotateY');
 		$(document).keydown(function(event) {
@@ -1214,7 +1195,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // Maltron: 88
-            if (KEYMAP['rotateX'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.rotateX.indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('rotateX');
 		$(document).keydown(function(event) {
@@ -1226,7 +1207,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // Maltron: 87
-            if (KEYMAP['sizew'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.sizew.indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('sizew');
 		$(document).keydown(function(event) {
@@ -1238,7 +1219,7 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
 		//eltselector.startManipulation();
 	    }
 	    // Maltron: 72
-            if (KEYMAP['sizeh'].indexOf(event.keyCode) != -1) {
+            if (KEYMAP.sizeh.indexOf(event.keyCode) != -1) {
 		$(document).unbind('keydown');
 		elementselector.startManipulation('sizeh');
 		$(document).keydown(function(event) {
