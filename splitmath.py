@@ -104,14 +104,14 @@ def split_image(imgfile):
         for box in boxes:
             box.write(imgdir, auxfile)
     else:
-        print "File does not exist!"
+        print("File does not exist!")
 
 
 def main():
     if (len(sys.argv) > 1):
         return split_image(sys.argv[1])
     else:
-        print "Needs a PNG file!"
+        print("Needs a PNG file!")
 
 
 if __name__ == '__main__':
