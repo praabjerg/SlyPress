@@ -1248,13 +1248,22 @@ function EventEditor(slidexml, document, numslides, xml_slides, slideparser, ani
     this.saveState = function () {
         var animdata = animations.serialize();
         var xmldata = (new XMLSerializer()).serializeToString(slidexml);
-        jQuery.post(
+	jQuery.ajax({
+	    type: "POST",
+	    url: 'save',
+	    data: {animdata: animdata, xmldata: xmldata},
+	    success: function(msg) {
+	        console.log("Saved: " + msg);
+	    },
+	    dataType: "text"
+	});
+        /*jQuery.post(
             'save',
             {animdata: animdata, xmldata: xmldata},
             function(msg) {
 	        console.log("Saved: " + msg);
 	    },
-            'text');
+            'json');*/
     };
 
     this.unsetEditNavigation = function() {
